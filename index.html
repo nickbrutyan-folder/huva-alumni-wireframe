@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="hy">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HUVA Academy — Շրջանավարտներ / Alumni</title>
+<meta name="description" content="Meet our graduates — Armenian professionals who completed HUVA Academy and now build with AI.">
+<meta property="og:title" content="HUVA Academy — Alumni">
+<meta property="og:description" content="Meet our HUVA Academy graduates. Hire them, follow them, learn from them.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/x-icon" href="https://huva.io/resources/figma/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wdth,wght@62.5..100,100..900&display=swap" rel="stylesheet">
+<style>
+  /* ─── Reset + brand tokens (mirrors huva.io) ─── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --yellow: #FFE600;
+    --yellow-soft: #e9ef00; /* HUVA_Yellow from Figma — used on sticky CTA */
+    --blue: #1200ff;        /* HUVA_Blue */
+    --black: #0a0a0a;
+    --dark: #111;
+    --white: #fff;
+    --gray: #888;
+    --line: #d9d9d9;
+    --font: 'Noto Sans Armenian', sans-serif;
+  }
+  html { scroll-behavior: smooth; overflow-x: clip; }
+  body {
+    font-family: var(--font);
+    background: #f6f4f0;
+    color: var(--black);
+    overflow-x: clip;
+    max-width: 100%;
+    padding-bottom: 70px; /* clears sticky CTA */
+    -webkit-font-smoothing: antialiased;
+  }
+  a { text-decoration: none; color: inherit; }
+  img { max-width: 100%; display: block; }
+  button { cursor: pointer; font-family: var(--font); border: none; background: none; }
+
+  /* ─── NAVBAR (verbatim from huva.io) ─── */
+  .nav-wrap {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 16px 48px; display: flex; justify-content: center;
+  }
+  .nav {
+    position: relative; display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center; gap: 16px;
+    padding: 12px 20px; border-radius: 40px;
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    background: rgba(255,255,255,0.3);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    width: 100%; max-width: 1200px;
+  }
+  .nav > * { position: relative; z-index: 1; }
+  .nav-logo { display: block; width: 200px; height: 32px; flex-shrink: 0; }
+  .nav-logo svg { width: 100%; height: 100%; }
+  .nav-links {
+    display: flex; align-items: center; justify-content: center;
+    list-style: none; flex-wrap: nowrap;
+  }
+  .nav-links a {
+    font-family: var(--font); font-stretch: expanded;
+    font-weight: 500; font-size: 14px; letter-spacing: 0.7px;
+    text-transform: uppercase; color: #1e1e1e;
+    padding: 8px 7px; border-radius: 8px;
+    white-space: nowrap; transition: opacity 0.2s;
+  }
+  .nav-links a:hover { opacity: 0.6; }
+  .nav-links a.active { color: var(--blue); }
+  .nav-actions { display: flex; align-items: center; gap: 16px; justify-content: flex-end; }
+  .nav-join {
+    background: var(--blue); color: #fff;
+    height: 48px; padding: 10px 24px; border-radius: 24px;
+    font-family: var(--font); font-weight: 500; font-size: 16px;
+    white-space: nowrap; flex-shrink: 0;
+    transition: background-color 200ms ease-out, transform 200ms ease-out;
+  }
+  .nav-join:hover { background: #0f00e0; transform: translateY(-1px); }
+  .nav-lang { display: flex; align-items: center; gap: 6px; padding: 8px; border-radius: 8px; flex-shrink: 0; position: relative; cursor: pointer; }
+  .nav-lang-flag { width: 16px; height: 16px; border-radius: 50%; overflow: hidden; flex-shrink: 0; display: inline-flex; }
+  .nav-lang-flag svg { width: 100%; height: 100%; }
+  .nav-lang-text {
+    font-family: var(--font); font-stretch: expanded;
+    font-weight: 500; font-size: 14px; letter-spacing: 0.7px;
+    text-transform: uppercase; color: #1e1e1e;
+  }
+  .nav-lang-chevron { width: 12px; height: 8px; transition: transform 0.2s; opacity: 0.5; }
+  .nav-hamburger {
+    display: none; flex-direction: column; gap: 7px; padding: 4px;
+  }
+  .nav-hamburger span { display: block; width: 28px; height: 3px; background: #1e1e1e; border-radius: 2px; }
+
+  @media (max-width: 1024px) {
+    .nav-wrap { padding: 12px 16px; }
+    .nav { grid-template-columns: auto 1fr auto; padding: 8px 12px; }
+    .nav-logo { width: 140px; }
+    .nav-links, .nav-lang { display: none; }
+    .nav-hamburger { display: flex; }
+  }
+  @media (max-width: 480px){
+    .nav-join { display: none; }
+  }
+
+  /* ─── HERO (alumni-specific) ─── */
+  .hero { padding: 144px 32px 56px; text-align: center; max-width: 1100px; margin: 0 auto; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font); font-stretch: expanded;
+    font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    background: #fff; padding: 10px 18px; border-radius: 99px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  }
+  .eyebrow .pulse {
+    width: 8px; height: 8px; border-radius: 99px; background: var(--blue);
+    box-shadow: 0 0 0 4px rgba(18,0,255,.18); animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 4px rgba(18,0,255,.18); } 50% { box-shadow: 0 0 0 8px rgba(18,0,255,.06); } }
+  h1 {
+    font-family: var(--font); font-stretch: expanded;
+    font-size: clamp(40px, 7vw, 80px); font-weight: 800;
+    letter-spacing: -2px; line-height: 1.05;
+    margin: 24px 0 18px; color: var(--black);
+  }
+  h1 .accent { color: var(--blue); }
+  .sub { font-size: clamp(16px, 2vw, 19px); max-width: 680px; margin: 0 auto; color: #3a3a3a; line-height: 1.55; }
+
+  /* Stats */
+  .stats {
+    max-width: 1100px; margin: 48px auto 0; padding: 0 32px;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    background: #fff; border-radius: 32px;
+    box-shadow: 0 8px 16px rgba(138,129,141,.13);
+    overflow: hidden;
+  }
+  .stat { padding: 28px 18px; text-align: center; border-right: 1px solid #eee; }
+  .stat:last-child { border-right: 0; }
+  .stat .num {
+    font-family: var(--font); font-stretch: expanded; font-weight: 800;
+    font-size: clamp(28px, 3.5vw, 44px); line-height: 1; letter-spacing: -1px;
+    color: var(--blue);
+  }
+  .stat .label {
+    margin-top: 8px; font-size: 12px; color: #555;
+    letter-spacing: 1px; text-transform: uppercase; font-weight: 600;
+    font-family: var(--font); font-stretch: expanded;
+  }
+  @media (max-width: 760px) {
+    .stats { grid-template-columns: repeat(2,1fr); }
+    .stat:nth-child(2n) { border-right: 0; }
+    .stat:nth-child(-n+2) { border-bottom: 1px solid #eee; }
+  }
+
+  /* Filters */
+  .filters {
+    max-width: 1320px; margin: 64px auto 24px; padding: 0 32px;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+  }
+  .filters h2 {
+    font-family: var(--font); font-stretch: expanded;
+    font-weight: 800; font-size: clamp(28px, 4vw, 40px);
+    letter-spacing: -1px; margin: 0;
+  }
+  .filters h2 .count { color: var(--blue); font-size: 0.6em; margin-left: 8px; }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip {
+    padding: 10px 18px; border-radius: 99px; background: #fff;
+    font-family: var(--font); font-stretch: expanded;
+    font-weight: 600; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
+    border: 1px solid rgba(0,0,0,.08); transition: all 0.15s;
+    color: var(--black);
+  }
+  .chip:hover { border-color: var(--blue); color: var(--blue); }
+  .chip.active { background: var(--black); color: #fff; border-color: var(--black); }
+
+  /* Grid — equal row heights so every card matches */
+  .grid {
+    max-width: 1320px; margin: 0 auto; padding: 0 32px 96px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    grid-auto-rows: 1fr;
+  }
+  @media (max-width: 1024px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px)  { .grid { grid-template-columns: 1fr; } }
+
+  /* Alumni card — uniform height, modeled on Figma Persona */
+  .card {
+    position: relative; background: #fff; border-radius: 40px;
+    padding: 32px 28px 28px;
+    box-shadow: 0 20px 26.7px rgba(129,92,141,.13);
+    display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px;
+    overflow: hidden; transition: transform .25s, box-shadow .25s;
+    height: 100%;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 28px 40px rgba(18,0,255,.14); }
+  .card::before {
+    content: ""; position: absolute; top: -60px; right: -60px;
+    width: 160px; height: 160px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(233,239,0,.5) 0%, rgba(233,239,0,0) 70%);
+    pointer-events: none;
+  }
+
+  .avatar { position: relative; width: 96px; height: 96px; border-radius: 50%; flex-shrink: 0; z-index: 1; }
+  .avatar .photo {
+    width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+    background: #eee; display: block; box-shadow: 0 3px 6px rgba(0,0,0,.2);
+  }
+  .avatar .initials {
+    position: absolute; inset: 0; border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue) 0%, #4a3aff 100%);
+    color: #fff; display: none; align-items: center; justify-content: center;
+    font-family: var(--font); font-stretch: expanded;
+    font-weight: 800; font-size: 32px; letter-spacing: -1px;
+    box-shadow: 0 3px 6px rgba(0,0,0,.2);
+  }
+  .avatar.no-photo .photo { display: none; }
+  .avatar.no-photo .initials { display: flex; }
+  .avatar .platform {
+    position: absolute; bottom: -2px; right: -2px;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--black); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #fff; z-index: 2;
+  }
+  .avatar .platform svg { width: 14px; height: 14px; }
+  .avatar .platform.instagram { background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); }
+  .avatar .platform.linkedin  { background: #0a66c2; }
+  .avatar .platform.behance   { background: var(--blue); }
+  .avatar .platform.telegram  { background: #26a5e4; }
+
+  .name {
+    font-family: var(--font); font-stretch: expanded;
+    font-weight: 700; font-size: 20px; letter-spacing: -0.4px;
+    line-height: 1.15; margin: 6px 0 0;
+  }
+  .handle-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 5px 11px; border-radius: 99px; background: rgba(0,0,0,.04);
+    font-size: 12px; color: #444; font-weight: 500;
+  }
+  .handle-pill svg { width: 11px; height: 11px; opacity: 0.55; }
+
+  .bio {
+    font-size: 14.5px; line-height: 1.55; color: #2a2a2a;
+    margin: 6px 0 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: calc(14.5px * 1.55 * 5);
+  }
+
+  .services { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: auto; padding-top: 6px; }
+  .service {
+    font-family: var(--font); font-stretch: expanded;
+    font-weight: 700; font-size: 10.5px; letter-spacing: 0.6px; text-transform: uppercase;
+    padding: 6px 11px; border-radius: 8px;
+    background: var(--yellow-soft); color: var(--black); white-space: nowrap;
+  }
+  .service.alt { background: var(--black); color: #fff; }
+
+  .cta-row { display: flex; gap: 8px; width: 100%; margin-top: 14px; }
+  .cta {
+    flex: 1; background: var(--blue); color: #fff;
+    padding: 13px 18px; border-radius: 99px;
+    font-family: var(--font); font-stretch: expanded;
+    font-weight: 700; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    transition: transform .15s, background .15s;
+  }
+  .cta:hover { transform: translateY(-1px); background: #0f00e0; }
+  .cta svg { width: 14px; height: 14px; }
+  .cta-secondary {
+    flex: 0 0 auto; background: transparent; color: var(--black);
+    border: 1.5px solid rgba(0,0,0,.12);
+    width: 46px; height: 46px; border-radius: 99px;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: border-color .15s, color .15s;
+  }
+  .cta-secondary:hover { border-color: var(--blue); color: var(--blue); }
+  .cta-secondary svg { width: 16px; height: 16px; }
+
+  .verified {
+    position: absolute; top: 18px; left: 18px;
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--black); color: #fff;
+    padding: 5px 9px; border-radius: 99px;
+    font-family: var(--font); font-stretch: expanded;
+    font-weight: 700; font-size: 9px; letter-spacing: 1px; text-transform: uppercase;
+    z-index: 2;
+  }
+  .verified .check {
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--yellow-soft); color: var(--black);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 8px; font-weight: 900;
+  }
+
+  /* Join card */
+  .join-card {
+    grid-column: 1 / -1;
+    background: var(--black); color: #fff;
+    border-radius: 40px; padding: 56px 48px; text-align: center;
+    margin-top: 16px; position: relative; overflow: hidden;
+  }
+  .join-card::before {
+    content: ""; position: absolute; top: -100px; left: -100px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(18,0,255,.6), transparent 60%);
+  }
+  .join-card::after {
+    content: ""; position: absolute; bottom: -150px; right: -150px;
+    width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(233,239,0,.25), transparent 60%);
+  }
+  .join-card h3 {
+    font-family: var(--font); font-stretch: expanded;
+    font-weight: 800; font-size: clamp(28px, 4vw, 44px);
+    letter-spacing: -1px; margin: 0 0 12px; position: relative; z-index: 1;
+  }
+  .join-card p { font-size: 17px; opacity: 0.85; max-width: 520px; margin: 0 auto 28px; position: relative; z-index: 1; }
+  .join-card .cta {
+    display: inline-flex; width: auto; padding: 16px 32px;
+    position: relative; z-index: 1; background: var(--yellow-soft); color: var(--black);
+  }
+  .join-card .cta:hover { background: #fff; }
+
+  .empty { grid-column: 1 / -1; text-align: center; padding: 64px 32px; color: #666; font-size: 15px; }
+
+  /* ─── FOOTER (verbatim from huva.io) ─── */
+  .footer {
+    background: #000;
+    display: flex; min-height: 80px;
+    padding: 20px 120px;
+    justify-content: center; align-items: center; align-content: center;
+    gap: 24px; flex-wrap: wrap;
+  }
+  .footer-logo { position: relative; width: 150px; height: 30px; flex-shrink: 0; }
+  .footer-logo svg { width: 100%; height: 100%; }
+  .footer-copyright {
+    flex: 1 0 0; min-width: 200px;
+    font-family: var(--font); font-stretch: expanded;
+    font-weight: 500; font-size: 16px; letter-spacing: 0.8px;
+    color: rgba(255,255,255,0.5); text-align: center;
+  }
+  .footer-socials { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+  .footer-social-link {
+    font-family: var(--font); font-stretch: expanded;
+    font-weight: 500; font-size: 16px; letter-spacing: 0.8px;
+    color: var(--yellow-soft);
+    padding: 8px; border-radius: 8px; white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+  .footer-social-link:hover { opacity: 0.7; }
+  @media (max-width: 1024px) { .footer { padding: 20px 40px; } }
+  @media (max-width: 768px) {
+    .footer { padding: 24px 20px; flex-direction: column; align-items: center; text-align: center; gap: 16px; }
+    .footer-copyright { text-align: center; min-width: unset; font-size: 14px; }
+    .footer-socials { justify-content: center; }
+    .footer-logo { width: 120px; }
+  }
+
+  /* ─── STICKY CTA (verbatim from huva.io) ─── */
+  .sticky-cta {
+    display: flex; flex-wrap: wrap;
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    background: var(--yellow-soft);
+    align-items: center; justify-content: center;
+    gap: 0 24px; padding: 12px 32px; min-height: 72px;
+  }
+  .sticky-cta-text {
+    font-family: var(--font); font-weight: 400; font-size: 16px; color: #000;
+    text-align: center; line-height: normal; white-space: nowrap;
+  }
+  .sticky-cta-text strong { font-weight: 700; text-decoration: underline; }
+  .sticky-cta-btn {
+    display: flex; align-items: center; justify-content: center;
+    height: 48px; padding: 10px 24px; background: var(--blue);
+    border-radius: 24px;
+    font-family: var(--font); font-size: 16px; font-weight: 500; color: #fff;
+    text-transform: uppercase; white-space: nowrap;
+    transition: background-color 200ms, transform 200ms, box-shadow 200ms;
+  }
+  .sticky-cta-btn:hover { background: #0f00e0; transform: translateY(-1px); box-shadow: 0 2px 6px rgba(0,0,0,0.12); }
+  @media (max-width: 480px) {
+    .sticky-cta { padding: 10px 16px; flex-direction: column; gap: 8px; }
+    .sticky-cta-text { white-space: normal; font-size: 14px; }
+    .sticky-cta-btn { width: 100%; height: 40px; font-size: 14px; padding: 8px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ────── NAVBAR (live huva.io structure) ────── -->
+<div class="nav-wrap">
+  <nav class="nav">
+    <a class="nav-logo" aria-label="HUVA academy" href="https://huva.io">
+      <!-- Real HUVA logo SVG -->
+      <svg width="236" height="32" viewBox="0 0 236 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M47.659 2.6219V14.458H62.2115V2.6219H67.7942V31.568H62.2115V19.2098H47.659V31.568H42.0763V2.6219H47.659Z" fill="#000"/>
+        <path d="M78.3676 2.6219V19.9911C78.3676 24.4836 80.3976 27.0342 85.4324 27.0342H86.2782C91.313 27.0342 93.343 24.4836 93.343 19.9911V2.6219H98.9258V19.946C98.9258 28.3714 93.891 32 86.2782 32H85.4324C77.8196 32 72.7849 28.3714 72.7849 19.946V2.6219H78.3676Z" fill="#000"/>
+        <path d="M107.682 2.6219L116.395 26.0801H117.917L126.505 2.6219H131.793L121.176 31.568H112.757L102.015 2.6219H107.682Z" fill="#000"/>
+        <path d="M145.709 2.6219L156.706 31.568H151.123L148.416 24.3972H134.415L131.709 31.568H126.464L137.376 2.6219H145.709ZM136.151 19.7732H146.64L142.113 7.80561H140.675L136.147 19.7732H136.151Z" fill="#000"/>
+        <path d="M165.823 12.67C168.283 12.67 169.585 13.7969 169.585 15.7464V21.3659H167.996V20.2728H167.628C166.86 21.1781 165.87 21.5199 164.55 21.5199C162.811 21.5199 161.49 20.7348 161.49 18.9243C161.49 17.3354 162.594 16.4451 164.936 16.4451H167.996V15.7464C167.996 14.4468 167.125 13.9171 165.823 13.9171H165.554C164.385 13.9171 163.381 14.4468 163.381 15.7277H161.792C161.792 13.7969 163.112 12.67 165.573 12.67H165.823ZM163.097 18.8567C163.097 19.7807 163.8 20.239 165.039 20.239C166.444 20.239 168 19.6417 168 17.9326V17.5044H165.021C163.682 17.5044 163.097 17.9664 163.097 18.8529V18.8567Z" fill="#000"/>
+        <path d="M175.811 12.67C178.253 12.67 179.941 13.9171 179.941 16.2085H178.352C178.352 14.875 177.466 13.9885 175.811 13.9885H175.561C173.906 13.9885 172.935 14.9614 172.935 16.7231V17.5082C172.935 19.2511 173.906 20.2089 175.561 20.2089H175.811C177.451 20.2089 178.422 19.3375 178.422 18.143H180.011C180.011 20.2803 178.238 21.5274 175.811 21.5274H175.561C173.02 21.5274 171.346 20.2127 171.346 17.5119V16.7268C171.346 14.0261 173.02 12.6775 175.561 12.6775H175.811V12.67Z" fill="#000"/>
+        <path d="M185.763 12.67C188.223 12.67 189.525 13.7969 189.525 15.7464V21.3659H187.936V20.2728H187.569C186.8 21.1781 185.811 21.5199 184.49 21.5199C182.751 21.5199 181.431 20.7348 181.431 18.9243C181.431 17.3354 182.534 16.4451 184.877 16.4451H187.936V15.7464C187.936 14.4468 187.065 13.9171 185.763 13.9171H185.494C184.325 13.9171 183.321 14.4468 183.321 15.7277H181.732C181.732 13.7969 183.053 12.67 185.513 12.67H185.763ZM183.038 18.8567C183.038 19.7807 183.74 20.239 184.98 20.239C186.384 20.239 187.94 19.6417 187.94 17.9326V17.5044H184.961C183.623 17.5044 183.038 17.9664 183.038 18.8529V18.8567Z" fill="#000"/>
+        <path d="M200.135 8.72215V21.3659H198.547V20.1864H198.193C197.524 21.1105 196.487 21.5199 195.318 21.5199H195.049C192.876 21.5199 191.287 20.1864 191.287 17.4856V16.7006C191.287 14.0185 192.876 12.6663 195.049 12.6663H195.318C196.454 12.6663 197.509 13.0607 198.193 13.9998H198.547V8.72215H200.135ZM192.876 16.7006V17.4856C192.876 19.2285 193.894 20.2014 195.586 20.2014H195.836C197.476 20.2014 198.547 19.2624 198.547 17.4856V16.7006C198.547 14.9426 197.509 13.9847 195.836 13.9847H195.586C193.898 13.9847 192.876 14.9764 192.876 16.7006Z" fill="#000"/>
+        <path d="M206.476 12.67C208.833 12.67 210.723 14.0035 210.723 16.7043V17.542H203.53C203.548 19.3525 204.567 20.2578 206.207 20.2578H206.476C208.05 20.2578 208.866 19.6079 209.153 18.635H210.642C210.341 20.4306 208.903 21.5237 206.476 21.5237H206.207C203.85 21.5237 201.974 20.224 201.974 17.4894V16.7043C201.974 14.0035 203.831 12.67 206.207 12.67H206.476ZM203.53 16.3099H209.168C209.083 14.7736 207.998 13.9359 206.476 13.9359H206.207C204.618 13.9359 203.614 14.7736 203.53 16.3099Z" fill="#000"/>
+        <path d="M214.169 12.824V13.9697H214.486C214.92 13.1997 215.773 12.67 216.961 12.67H217.126C218.281 12.67 219.068 13.1133 219.568 13.9697H220.002C220.502 13.1508 221.374 12.67 222.576 12.67H222.742C224.533 12.67 225.736 13.6279 225.736 16.2085V21.3696H224.147V16.2611C224.147 14.7585 223.496 13.9885 222.139 13.9885H221.973C220.668 13.9885 219.951 14.7736 219.951 16.2761V21.3659H218.362V16.2573C218.362 14.7886 217.693 13.9847 216.354 13.9847H216.188C214.883 13.9847 214.166 14.7698 214.166 16.2573V21.3659H212.577V12.824H214.166H214.169Z" fill="#000"/>
+        <path d="M228.505 12.824L231.267 19.0595H231.87L234.496 12.824H236L230.664 25.4678H229.16L230.767 21.6589L226.802 12.824H228.509H228.505Z" fill="#000"/>
+        <path d="M13.2985 17.2039L8.04308 31.568H10.68L15.0123 19.7281H15.8949L20.2272 31.568H22.8641L17.6087 17.2039H13.2985Z" fill="#000"/>
+        <path d="M15.4536 6.6111C17.2409 6.6111 18.6899 5.13112 18.6899 3.30555C18.6899 1.47999 17.2409 0 15.4536 0C13.6662 0 12.2172 1.47999 12.2172 3.30555C12.2172 5.13112 13.6662 6.6111 15.4536 6.6111Z" fill="#000"/>
+        <path d="M30.9072 10.2585H19.2416L28.6675 3.23418L27.2111 1.1945L15.4536 9.95797L3.69974 1.1945L2.24338 3.23418L11.6656 10.2585H0V12.7827H11.6656L2.24338 19.8033L3.69974 21.8429L15.4536 13.0795L27.2111 21.8429L28.6675 19.8033L19.2416 12.7827H30.9072V10.2585Z" fill="#000"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="https://huva.io/#instructors">Դասախոսներ</a></li>
+      <li><a href="https://huva.io/#course-plan">Ծրագիր</a></li>
+      <li><a href="https://huva.io/#how-works">Ֆորմատ</a></li>
+      <li><a href="#" class="active">Շրջանավարտներ</a></li>
+      <li><a href="https://huva.io/#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="nav-join">ՄԻԱՑԻՐ ՀԻՄԱ</button>
+      <div class="nav-lang">
+        <span class="nav-lang-flag" aria-hidden="true">
+          <!-- Armenian flag (simplified tricolor) -->
+          <svg viewBox="0 0 16 16"><rect width="16" height="5.33" y="0" fill="#d90012"/><rect width="16" height="5.34" y="5.33" fill="#0033a0"/><rect width="16" height="5.33" y="10.67" fill="#f2a800"/></svg>
+        </span>
+        <span class="nav-lang-text">HY</span>
+        <svg class="nav-lang-chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1.5L6 6.5L11 1.5" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</div>
+
+<!-- ────── HERO (alumni-specific) ────── -->
+<section class="hero">
+  <span class="eyebrow"><span class="pulse"></span>HUVA Academy · Շրջանավարտներ</span>
+  <h1>Մեր <span class="accent">շրջանավարտները</span>։</h1>
+  <p class="sub">Հայ պրոֆեսիոնալներ, ովքեր ավարտել են HUVA Academy-ն և ամեն օր ստեղծում, ներկայացնում ու վաճառում են AI-ով։ Աշխատեցրեք, հետևեք, սովորեք նրանցից։</p>
+</section>
+
+<div class="stats">
+  <div class="stat"><div class="num" data-stat="total">—</div><div class="label">Շրջանավարտներ</div></div>
+  <div class="stat"><div class="num" data-stat="pro">—</div><div class="label">Academy Pro</div></div>
+  <div class="stat"><div class="num" data-stat="creator">—</div><div class="label">AI Creator</div></div>
+  <div class="stat"><div class="num">100%</div><div class="label">AI-native</div></div>
+</div>
+
+<div class="filters">
+  <h2>Շրջանավարտներ <span class="count" data-stat="visible"></span></h2>
+  <div class="chips" id="chips">
+    <button class="chip active" data-filter="all">Բոլորը</button>
+    <button class="chip" data-filter="academy-pro">Academy Pro</button>
+    <button class="chip" data-filter="academy">AI Content Academy</button>
+    <button class="chip" data-filter="creator">AI Creator</button>
+  </div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<!-- ────── FOOTER (live huva.io structure) ────── -->
+<footer class="footer">
+  <div class="footer-logo" aria-label="HUVA">
+    <svg width="150" height="30" viewBox="0 0 150 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12.7309 16.127L7.69909 29.5943H10.2253L14.3718 18.4951H15.2129L19.3595 29.5943H21.8857L16.8539 16.127H12.7309Z" fill="#fff"/>
+      <path d="M14.7924 6.19533C16.5039 6.19533 17.8891 4.80682 17.8891 3.09767C17.8891 1.38851 16.5039 0 14.7924 0C13.0808 0 11.6957 1.38851 11.6957 3.09767C11.6957 4.80682 13.0838 6.19533 14.7924 6.19533Z" fill="#fff"/>
+      <path d="M29.5848 9.61688H18.4184L27.438 3.03029L26.044 1.12109L14.7924 9.33447L3.54076 1.12109L2.14681 3.03029L11.1663 9.61688H0V11.982H11.1663L2.14681 18.5657L3.54076 20.4778L14.7924 12.2645L26.044 20.4778L27.438 18.5657L18.4184 11.982H29.5848V9.61688Z" fill="#fff"/>
+      <path d="M45.6182 2.45605V13.5523H59.5459V2.45605H64.8894V29.5937H59.5459V18.0091H45.6182V29.5937H40.2747V2.45605H45.6182Z" fill="#fff"/>
+      <path d="M75.0147 2.45605V18.7387C75.0147 22.9512 76.9586 25.34 81.7757 25.34H82.5844C87.4015 25.34 89.3454 22.9512 89.3454 18.7387V2.45605H94.6889V18.6975C94.6889 26.5961 89.8718 29.9967 82.5815 29.9967H81.7727C74.4854 29.9967 69.6653 26.5931 69.6653 18.6975V2.45605H75.0088H75.0147Z" fill="#fff"/>
+      <path d="M103.073 2.45605L111.413 24.4486H112.872L121.092 2.45605H126.153L115.989 29.5937H107.931L97.6473 2.45605H103.073Z" fill="#fff"/>
+      <path d="M139.472 2.45605L150 29.5937H144.657L142.066 22.8689H128.664L126.073 29.5937H121.053L131.499 2.45605H139.475H139.472ZM130.323 18.5357H140.363L136.031 7.31583H134.655L130.323 18.5357Z" fill="#fff"/>
+    </svg>
+  </div>
+  <p class="footer-copyright">© 2026 HUVA Academy. Think human. Build AI.</p>
+  <div class="footer-socials">
+    <a href="https://www.linkedin.com/company/huva-academy" target="_blank" rel="noopener" class="footer-social-link">LINKEDIN</a>
+    <a href="https://www.instagram.com/aiwithani" target="_blank" rel="noopener" class="footer-social-link">INSTAGRAM</a>
+  </div>
+</footer>
+
+<!-- ────── STICKY CTA (live huva.io) ────── -->
+<div class="sticky-cta">
+  <div class="sticky-cta-text">Միացիր հաջորդ խմբին, <strong>որ սկսվում է մայիսի 20-ից</strong></div>
+  <button class="sticky-cta-btn">Գալիս եմ</button>
+</div>
+
+<script>
+const ICONS = {
+  instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.4a4 4 0 1 1-7.9 1.1 4 4 0 0 1 7.9-1.1z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>',
+  linkedin: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.4 20.4h-3.6v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9v5.7H9.2V9h3.5v1.6h.05c.5-.9 1.7-1.9 3.4-1.9 3.6 0 4.3 2.4 4.3 5.5v6.2zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM7.1 20.4H3.5V9h3.6v11.4z"/></svg>',
+  behance: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.8 11c1 0 1.5-.4 1.5-1.3 0-.5-.2-.8-.5-1-.3-.2-.7-.3-1.1-.3H5v2.6h2.8zm.2 4.6c.5 0 .9-.1 1.2-.4.3-.2.5-.6.5-1.2 0-.5-.2-.9-.5-1.1-.3-.2-.7-.3-1.2-.3H5v3h3zm3.6-3.8c.5.7.7 1.6.7 2.6 0 1-.2 1.9-.7 2.6-.3.4-.7.8-1.1 1.1-.5.3-1.1.4-1.7.5H2V6.7h6.7c.7 0 1.3.1 1.8.3.5.2.9.5 1.2.8.3.3.5.7.7 1.2.1.4.2.9.2 1.4 0 .6-.1 1-.4 1.4-.2.4-.5.7-1 1 .6.2 1.1.5 1.4 1zm6.4 1.4c-.4 0-.7 0-1.1.2-.3.1-.6.2-.9.5l3.9 1.1c-.1-.6-.3-1.1-.7-1.4-.4-.3-.8-.4-1.2-.4zM18 10c1.4 0 2.5.4 3.4 1.2.9.8 1.3 1.9 1.3 3.3v.5l-.1.5h-5.9c.1.6.3 1.1.7 1.4.4.3.9.4 1.5.4.3 0 .6-.1.9-.2.3-.1.6-.3.8-.6h2.2c-.4 1.1-1 1.8-1.8 2.4-.8.5-1.7.8-2.7.8-1.5 0-2.8-.4-3.7-1.3-.9-.8-1.4-2-1.4-3.5 0-1.4.4-2.6 1.3-3.5.9-1 2-1.4 3.5-1.4zM15 8.2V7h5v1.2h-5z"/></svg>',
+  telegram: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>',
+  external: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>',
+  arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>',
+};
+
+const alumni = [
+  { name: "Ani Azatyan", handle: "ani_aesthetic1", url: "https://www.instagram.com/ani_aesthetic1", platform: "instagram", bio: "Ես ոչ թե պարզապես կոնտենտ եմ ստեղծում, այլ գաղափարներ՝ որոնք աշխատում են։", courses: ["academy"] },
+  { name: "Lianna Krtshatsyan", handle: "monmart.visuals", url: "https://www.instagram.com/monmart.visuals", platform: "instagram", bio: "Ունեմ նկարչական կրթություն (Թերլեմեզյան-Թատերական նախկին ուսանող) ու յուրաքանչյուր դետալին նայում եմ հետաքրքիր եւ անսովոր տեսանկյուններից։", courses: ["academy-pro"] },
+  { name: "Zara Namalyan", handle: "zara.aiads", url: "https://www.instagram.com/zara.aiads", platform: "instagram", bio: "Կոնտենտի ստեղծումից բացի կարևոր է նաև ուսումնասիրել բրենդի ռազմավարությունն ու նպատակները, մրցակցային շուկան, ինչն էլ հնարավոր է դարձնում ավելի նպատակային լինելու իմ դեպքում, քանի որ մարքեթինգի մասնագետ եմ՝ ավելի քան 6 տարվա փորձով։", courses: ["academy", "academy-pro"] },
+  { name: "HAgency AI", handle: "hagency.ai", url: "https://www.instagram.com/hagency.ai", platform: "instagram", bio: "Կրեատորը այն մարդն է, ով տեսնում է սովորականը ոչ սովորական ձևով։ Ինձ պետք է ընտրեն, որովհետև ստեղծում եմ նորարարական և հիշվող կոնտենտ, որը օգնում է բրենդներին աճել։", courses: ["academy-pro"] },
+  { name: "Mellaniyya", handle: "melaniacreates", url: "https://www.instagram.com/melaniacreates", platform: "instagram", bio: "Ես content creator եմ, ով ստեղծում է գեղագիտական, մտածված և ժամանակակից վիզուալ կոնտենտ՝ թե՛ AI-ի, թե՛ սովորական նկարահանումների միջոցով։ Բիզնեսները կարող են ընտրել ինձ, որովհետև հասկանում եմ բրենդի ոճը, տրամադրությունը և այն, թե ինչպիսի կոնտենտն է օգնում առանձնանալ։", courses: ["academy-pro"] },
+  { name: "Anya Wanessian", handle: "ai.anyawanessian", url: "https://www.instagram.com/ai.anyawanessian", platform: "instagram", bio: "Ես համադրում եմ PR մտածողությունը և AI կոնտենտը՝ ստեղծելով բրենդների համար ռազմավարական և մասշտաբավորվող վիզուալներ։ Ինձ ընտրում են, որովհետև ստեղծում եմ կոնտենտ, որը ոչ միայն գեղեցիկ է, այլ նաև ճիշտ դիրքավորում է բիզնեսը շուկայում։", courses: ["academy", "academy-pro"] },
+  { name: "Anush", handle: "ai.byanush", url: "https://www.instagram.com/ai.byanush", platform: "instagram", bio: "Նախքան վիզուալներ ստեղծելը խորությամբ ուսումնասիրում եմ բիզնեսի պատմությունն ու արժեքները։ Սա թույլ է տալիս ստեղծել այնպիսի կոնտենտ, որը ոչ միայն էսթետիկ է, այլև իրականում արտացոլում է բրենդի ինքնությունը։", courses: ["academy-pro"] },
+  { name: "Gor (BaGorE)", handle: "heema_studio_", url: "https://www.instagram.com/heema_studio_", platform: "instagram", bio: "Ես AI վիզուալ արտիստ եմ, ստեղծում եմ էսթետիկ և գրավիչ վիզուալներ՝ միավորելով արվեստը, մոդան և storytelling-ը։ Ստեղծում եմ վիզուալ պատմություններ, որոնք գրավում են ուշադրություն և բարձրացնում բրենդի արժեքը։", courses: ["creator", "academy"] },
+  { name: "Elen H.", handle: "elendoes.ai", url: "https://www.instagram.com/elendoes.ai", platform: "instagram", bio: "Ինձ տարբերակող կողմը offline video production-ի փորձն է գովազդների եւ reel-երի հարցում, ինչի շնորհիվ AI-ով կոնտենտի ստեղծման մի շարք պրոցեսներ ավելի սահուն են անցնում։ Քանի որ ինքս սցենարիստ եմ, փնտրում եմ մտքի ներկայացման հետաքրքիր անկյուններ, որոնք էմոցիոնալ ազդեցություն են թողնում։", courses: ["academy"] },
+  { name: "Aeloria AI", handle: "aeloria_ai", url: "https://www.instagram.com/aeloria_ai", platform: "instagram", bio: "Ես ստեղծում եմ AI-powered cinematic վիզուալներ, որոնք գրավում են ուշադրությունը և բարձրացնում բրենդի ներգրավվածությունը։ Կաշխատեմ ձեր գաղափարները վերածել հստակ, հիշվող և վաճառող կոնտենտի։", courses: ["academy", "academy-pro"] },
+  { name: "Elen Baghdasaryan", handle: "pure.visuals.ai", url: "https://www.instagram.com/pure.visuals.ai", platform: "instagram", bio: "Ես աշխատում եմ fashion և beauty բրենդների հետ՝ ստեղծելով բարձրակարգ, իրականին մոտ վիզուալներ։ Եթե ուզում եք ռեալիզմ և պրեմիում արդյունք՝ կարող եք դիմել ինձ։", courses: ["creator"] },
+  { name: "Tatevik Aloyan", handle: "tatevikaloyan", url: "https://www.behance.net/gallery/244623161/Portfolio", platform: "behance", bio: "Ունեմ մեծ փորձ AI-ով վիզուալների ստեղծման ոլորտում՝ զանազան բրենդների և արտիստների համար։ Աշխատում եմ կոնցեպտից մինչև վերջնական արդյունք՝ մեծ ուշադրություն դարձնելով ռեալիզմին, բրենդին համապատասխան մթնոլորտի ստեղծմանը և ազդեցիկ վիզուալ պատմությանը։", courses: ["academy"] },
+  { name: "Ani AI Digital", handle: "ani_ai_digital", url: "https://www.instagram.com/ani_ai_digital", platform: "instagram", bio: "Ես ստեղծում եմ ոչ թե պարզապես գեղեցիկ վիդեոներ, այլ վաճառող, կինեմատոգրաֆիկ կոնտենտ՝ որտեղ համադրված են էմոցիան, շարժումը և բրենդային պատմությունը։ Յուրաքանչյուր աշխատանքում ուշադրություն եմ դարձնում մանր դետալներին։", courses: ["creator"] },
+  { name: "Annie (AI Club Yerevan)", handle: "aiclubyerevan", url: "https://www.instagram.com/aiclubyerevan", platform: "instagram", bio: "AI Creator՝ վերածում եմ գաղափարները ֆոտոների ու Reel-ների։ Content boost AI-ով։ Սիրում եմ համատեղել անհամատեղելիի հետ՝ ոչ ստանդարտ մոտեցումներ, նվիրված աշխատանք։", courses: ["creator"] },
+  { name: "Karine Petrosyan", handle: "ai_fabric", url: "https://www.instagram.com/ai_fabric", platform: "instagram", bio: "I'm a Content Marketing Specialist and AI-driven Video Content Creator passionate about turning ideas into impactful digital experiences. I create AI solutions that work for real businesses — I collaborate with companies, use the latest AI tools, and deliver each project to completion with clear deadlines.", courses: ["academy", "academy-pro"] },
+  { name: "Sylvie Kh.", handle: "sylvie.aiexperience", url: "https://www.instagram.com/sylvie.aiexperience", platform: "instagram", bio: "Երկար տարիներ աշխատել եմ բիզնեսների հետ՝ օգնելով դրանց տեսանելիության բարձրացմանն ու գրագետ ներկայացմանը։ Հիմա, AI Content Creation-ի գիտելիքները հաշվի առնելով, կարող եմ բիզնեսներին տրամադրել ամբողջական PR փաթեթներ՝ ներառելով տեսլականը պատրաստի վիզուալների վերածելու ծառայությունը։", courses: ["academy"] },
+  { name: "Anna", handle: "aiwithann", url: "https://www.instagram.com/aiwithann", platform: "instagram", bio: "Քայլերս դեռ նոր են այս աշխարհում, բայց այն իսկապես ստեղծագործ մարդու համար գեղեցիկ աշխարհ է։ Ես փորձում եմ ստեղծել ոչ թե պարզապես գեղեցիկ վիզուալ, այլ կոնտենտ, որը գրավում է ուշադրություն և աշխատում է վաճառքի համար։", courses: ["academy", "academy-pro"] },
+  { name: "Mane Harutyunyan", handle: "maneharutyunian", url: "https://www.instagram.com/maneharutyunian", platform: "instagram", bio: "Լուսանկարիչ։ Overthinker։ Երբեմն՝ բողոքող 📸։ Եթե ուզում ես, որ քեզ նկատեն — ճիշտ տեղում ես։", courses: ["academy"] },
+  { name: "Lia Terzyan", handle: "lia.ai.creator", url: "https://www.instagram.com/lia.ai.creator", platform: "instagram", bio: "Տարիների դիզայնի փորձը, կրեատիվությունը և ստեղծագործելու անկեղծ սերը ինձ օգնում են ստեղծել կոնտենտ, որն աչքի է ընկնում և հիշվում։", courses: ["creator", "academy-pro"] },
+  { name: "House of AI Vision", handle: "houseofaivision", url: "https://www.instagram.com/houseofaivision", platform: "instagram", bio: "Ես ստեղծում եմ գրավիչ ու բնական կոնտենտ, որը օգնում է բիզնեսներին աճել։ Ինձ ընտրում են, որովհետև իմ վիզուալները բերում են իրական արդյունք։", courses: ["academy"] },
+  { name: "Anna (Vahanovna)", handle: "annaai_creativestudio", url: "https://www.instagram.com/annaai_creativestudio", platform: "instagram", bio: "Ես Աննան եմ՝ AI կոնտենտ կրեատոր, ով ստեղծում է կոնտենտ, որը ոչ թե պարզապես նայում են, այլ զգում են ու գնելու են։ Կարողանում եմ աշխատել շատ սեղմ ժամկետներում, վիզուալը վերածում եմ գործիքի՝ ուշադրություն գրավելու, վստահություն կառուցելու և վաճառք ստեղծելու համար։", courses: ["academy-pro"] },
+  { name: "Toma H.", handle: "softlight_lab", url: "https://www.instagram.com/softlight_lab", platform: "instagram", bio: "Ես ստեղծում եմ կոնտենտ, որը տարբերվող է և բրենդներին դարձնում է տեսանելի և տարբերակելի շուկայում։ Ինձ արժի ընտրել, որովհետև համադրում եմ էսթետիկան և բիզնես մտածողությունը։", courses: ["academy"] },
+  { name: "Anna Veziryan", handle: "anna-veziryan", url: "https://www.linkedin.com/in/anna-veziryan", platform: "linkedin", telegram: "Anna_Veziryan", bio: "Որպես մարքեթինգի մասնագետ՝ ոչ միայն ստեղծում եմ կոնտենտ, այլև խորությամբ տիրապետում եմ բիզնես գործընթացների բոլոր նրբություններին և տարբեր շուկաների (Հայաստան, ԱՄՆ, Ֆրանսիա, Շվեյցարիա) առանձնահատկություններին։ Իմ ուժեղ կողմը զրոյից կրեատիվ գաղափարների գեներացումն է, որը վերածում եմ ռազմավարական լուծումների։", courses: ["academy-pro"] },
+  { name: "Luiza Gh.", handle: "neuralstructure", url: "https://www.instagram.com/neuralstructure", platform: "instagram", bio: "Ես կենտրոնանում եմ այնպիսի բովանդակություն ստեղծելու վրա, որը հաճելի է զգացողության համար, այլ ոչ թե պարզապես գեղեցիկ տեսք ունի։ Այդ հուզական կապն է, որը մարդկանց ստիպում է կանգ առնել, դիտել և հիշել ապրանքանիշը։", courses: ["academy"] },
+  { name: "Mari Simonyan", handle: "by_marsim", url: "https://www.instagram.com/by_marsim", platform: "instagram", bio: "Ես կարողանում եմ ստեղծել հոլովակներ, որոնք ուշադրություն են գրավում առաջին պահից։ Բացի AI կրեատոր լինելուց իմ առաջին մասնագիտությունը մարքեթինգն է, որի միջոցով ավելի լավ եմ հասկանում բրենդների ճիշտ մոտեցումը և սպառողների վարքագիծը։", courses: ["academy"] },
+  { name: "AinTes", handle: "aintes_arm", url: "https://www.instagram.com/aintes_arm", platform: "instagram", bio: "Որպես կոնտենտ կրեատոր՝ ստեղծում եմ ինչպես դասական պրոդուկտային, այնպես էլ ավելի բարդ, ոչ ստանդարտ վիդեոներ։ Առաջարկում եմ լուծումներ ընկերություններին, որոնք փնտրում են ճկուն մոտեցում և ցանկանում են վիզուալիզացնել իրենց գաղափարները՝ անկախ բարդության։", courses: ["academy"] },
+  { name: "Elen Tsaturyan", handle: "ai_lab_armenia", url: "https://www.instagram.com/ai_lab_armenia", platform: "instagram", bio: "Շուրջ 10 տարի Instagram-ում տարբեր բրենդների էջերի առաջխաղացմամբ զբաղվելուց հետո հասկանում եմ, թե որ տեսակի կոնտենտն է ակտուալ տվյալ պահին։ Պունկտուալ եմ, պատասխանատու, սիրում եմ այն, ինչով զբաղվում եմ։", courses: ["academy"] },
+  { name: "Karpine S.", handle: "silver.ai.agency", url: "https://www.instagram.com/silver.ai.agency", platform: "instagram", bio: "Քանի որ մոտենում եմ բրենդինգի և մարքեթինգի ռազմավարության տեսանկյունից, ստեղծված վիզուալը հստակ պետք է լուծի խնդիր, որ տվյալ պահին ունի բիզնեսը, բացի գրավիչ լինելը։", courses: ["creator", "academy"] },
+  { name: "Hayk (AI Booben)", handle: "aibooben", url: "https://www.instagram.com/aibooben", platform: "instagram", bio: "Ստեղծում ենք կրեատիվ կոնտենտ, որպեսզի վիրուսային ձևով տարածվի։ Ձգտում ենք ստանալ մաքսիմալ անթերի աշխատանք։ Գնային քաղաքականության մեջ շատ ճկուն ենք։", courses: ["creator"] },
+  { name: "Ani Demurchian", handle: "ai_visuals_by_ani", url: "https://www.instagram.com/ai_visuals_by_ani", platform: "instagram", bio: "Աշխատանքներ կատարելիս կարևորում եմ ոչ միայն վերջնական արդյունքի գեղեցկությունը, այլ նաև այն, որ յուրաքանչյուր նախագիծ ունենա իր ինքնությունը, տրամադրությունը և հիշվող ազդեցությունը։", courses: ["academy-pro"] },
+  { name: "Mane Hovhannisyan", handle: "ai.withmane", url: "https://www.instagram.com/ai.withmane", platform: "instagram", bio: "Ունեմ մարքեթինգային ակադեմիական կրթություն, գրաֆիկ դիզայներ եմ, մարքեթոլոգ 4+ տարվա փորձով։ Ունեմ նաև UX/UI դիզայնի փորձ։ Դիզայն աչքս տեղն է, իսկ մարքեթինգը օգնում է, որ վիզուալները ստրատեգիկ լինեն։", courses: ["academy-pro"] },
+  { name: "Tatev Manukyan", handle: "tatev.visuals", url: "https://www.instagram.com/tatev.visuals", platform: "instagram", bio: "Ես գրաֆիկ դիզայներ եմ մասնագիտությամբ և ունեմ նաև նկարչական կրթություն, ինչի շնորհիվ մեծ ուշադրություն եմ դարձնում կոմպոզիցիային, գունային զգացողությանը և մանրուքներին։ Ստեղծում եմ մտածված ու aesthetic վիզուալներ, որոնք ոչ միայն գեղեցիկ են, այլ նաև փոխանցում են բրենդի տրամադրությունն ու գաղափարը։", courses: ["academy-pro", "creator"] },
+  { name: "Vard Khachatuni", handle: "your__ai__creator", url: "https://www.instagram.com/your__ai__creator", platform: "instagram", bio: "Ես ստեղծում եմ կոնտենտ, որը բնական կերպով գրավում է ուշադրությունը և հստակ արտացոլում բրենդի էությունը։ Առաջնային են ինձ համար դիմացինի ցանկությունները, և միշտ բաց եմ քննարկումների համար։", courses: ["academy"] },
+  { name: "Mariam UX", handle: "aidailydiary", url: "https://www.instagram.com/aidailydiary", platform: "instagram", bio: "Տրամադրում եմ համապատասխան ռեսուրսներ՝ լավագույն արդյունքի համար։ Ունեմ մեծ փորձ տարբեր բիզնեսների հետ համագործակցության շրջանակում, հասկանում եմ բիզնեսին ինչ առաջարկել, որպեսզի հասնեն նպատակներին։ Մեծ ներդրում եմ կատարում բուն գաղափարի մեջ, ինչը ավելի արժեքավոր եմ համարում։", courses: ["academy-pro", "creator"] },
+  { name: "Saten V.S.", handle: "aiwithsat", url: "https://www.instagram.com/aiwithsat", platform: "instagram", bio: "Ես Սաթենն եմ, երաժիշտ, mobile content creator և արդեն նաև AI content creator։ Ասում են, որ սիրունը տեսնելու հետաքրքիր հատկություն ունեմ, իսկ երաժշտական կրթությունն օգնում է տեսածս կամ ստեղծածս ավելի երաժշտական մատուցել։", courses: ["academy", "academy-pro"] },
+  { name: "Sweetlana Kh.", handle: "directed_fantasy", url: "https://www.instagram.com/directed_fantasy", platform: "instagram", bio: "Գրեթե 3 տարի աշխատում եմ որպես content creator՝ կենտրոնացած գաղափարներ գեներացնելու և ուրույն ոճով սցենարներ գրելու վրա միկրո/մակրո ինֆլյուենսերների, գովազդային ռիլերի և բրենդների համար։ Վերջին ամիսներին խորացել եմ creative producing-ի մեջ։", courses: ["academy-pro"] },
+  { name: "Ann Gyurjiyan", handle: "ann_mdbrd", url: "https://www.instagram.com/ann_mdbrd", platform: "instagram", bio: "Ես ստեղծում եմ կոնտենտ, որը էսթետիկ է և յուրահատուկ։ Սիրում եմ ստեղծել հետաքրքիր մտքեր՝ ոգեշնչվելով այն ամենից, ինչ շրջապատում է ինձ։ Իմ գործին մոտենում եմ շատ մեծ պատասխանատվությամբ՝ ուշադիր եմ ամեն մի դետալին։", courses: ["creator", "academy-pro"] },
+  { name: "Nune Poghosyan", handle: "nuneaicreator", url: "https://www.instagram.com/nuneaicreator", platform: "instagram", bio: "Ես IT ոլորտում աշխատում եմ ավելի քան 14 տարի և ամեն օր օգտագործում եմ AI իմ աշխատանքում, հասկանալով թե ինչպես է այն իրականում աշխատում։ Բիզնեսները կարող են ընտրել ինձ, որովհետև համադրում եմ տեխնիկական փորձը և ստեղծարար մոտեցումը՝ ստեղծելով արդյունավետ ու ժամանակակից կոնտենտ։", courses: ["academy-pro"] },
+  { name: "Ani Azatyan (Creator)", handle: "aiwithani_creator", url: "https://www.instagram.com/aiwithani_creator", platform: "instagram", bio: "Creative Director (AI)։ Cinematic վիզուալներ ու concept գովազդներ։ Emotion > Content։ Ստեղծում եմ ոչ միայն գեղեցիկ, այլ նպատակային կոնտենտ՝ որը գրավում է ուշադրություն և օգնում բրենդին ավելի ուժեղ ներկայանալ։", courses: ["creator"] },
+  { name: "Armine M.", handle: "armimarti_yan", url: "https://www.instagram.com/armimarti_yan", platform: "instagram", bio: "Reelmaker · SMM · AI Content Creator։ Օգնում եմ բրենդներին առանձնանալ կոնտենտով, որը գրավում է ուշադրությունը։", courses: ["academy", "academy-pro"] },
+  { name: "LilArt Retouch", handle: "lilart_ai", url: "https://www.instagram.com/lilart_ai", platform: "instagram", bio: "Ես ստեղծում եմ մաքուր վիզուալներ։ Իմ նպատակն է ստեղծել կոնտենտ, որը ոչ միայն գեղեցիկ է, այլ նաև բարձրացնում է բրենդի ընկալումը։", courses: ["creator"] },
+  { name: "Scripted AI", handle: "scripted._ai", url: "https://www.instagram.com/scripted._ai", platform: "instagram", bio: "Ես կոնտենտ կրեատոր եմ, ինչպես նաև՝ մասնագիտությամբ սցենարիստ և կինոռեժիսոր, ինչի շնորհիվ ստեղծում եմ կինեմատոգրաֆիկ բովանդակություն։ Իմ նպատակը պատմություններ պատմելն է, որոնք ոչ միայն գրավում են, այլև թողնում են հետք։", courses: ["academy"] },
+  { name: "Gohar", handle: "gohar_creates_with_ai", url: "https://www.instagram.com/gohar_creates_with_ai", platform: "instagram", bio: "Սիրում եմ ստեղծագործել, ոգեշնչվել արվեստից, պատմությունից և գաղափարներ վերածել վիզուալ պատմությունների։ Իմ ստեղծած կոնտենտը տարբերվող է, որովհետև համադրում եմ էսթետիկան և բիզնես մտածողությունը՝ օգնելով բրենդներին լինել տեսանելի, հիշվող և առանձնանալ շուկայում։", courses: ["academy", "academy-pro", "creator"] },
+  { name: "Victoria Y.", handle: "victoria.yvn", url: "https://www.instagram.com/victoria.yvn", platform: "instagram", bio: "Առաջին հայ AI բլոգերը։ Սովորեցնում եմ ճիշտ ներդնել AI-ը ձեր բիզնեսում։ Ֆիլտրված կոնտենտ, տարիների փորձ մարքեթինգում։", courses: ["academy", "academy-pro"] },
+  { name: "Milena Badalyan", handle: "badalian.ai", url: "https://www.instagram.com/badalian.ai", platform: "instagram", bio: "Ես ստեղծում եմ ոչ միայն վիզուալ գեղեցիկ կոնտենտ, այլ պատմություն, որը կապ է ստեղծում բրենդի ու մարդկանց միջև։ Ինձ ընտրելով՝ բիզնեսները ստանում են կրեատիվ մոտեցում, ուշադրություն դետալներին և արդյունք, որը առանձնանում է ու հիշվում։", courses: ["academy-pro"] },
+  { name: "Ani Darbinyan", handle: "ai.creator.ani", url: "https://www.instagram.com/ai.creator.ani", platform: "instagram", bio: "Ստեղծում եմ AI-ով ձևավորված վիզուալ գաղափարներ, որոնք օգնում են բիզնեսներին ներկայանալ ավելի ժամանակակից, տարբերվող և հիշվող կերպով։ Ինձ կարող են ընտրել այն բիզնեսները, որոնք ուզում են ոչ միայն գեղեցիկ կոնտենտ, այլ նաև բրենդին համապատասխան հստակ mood, ոճ և ստեղծարար ուղղություն։", courses: ["academy"] },
+  { name: "Yourfriday AI", handle: "yourfridayai", url: "https://www.instagram.com/yourfridayai", platform: "instagram", bio: "Full-service creative studio Երևանում 🇦🇲 և Լոս Անջելեսում 🇺🇸։ Creative Direction, Production, Strategy, Content, Graphics & Product Design։", courses: ["creator"] },
+  { name: "Gayane Manoukian", handle: "sssaiart.226", url: "https://www.instagram.com/sssaiart.226", platform: "instagram", bio: "AI art & video։ Իմ իրականությունը՝ AI-ով։ Մարդկային հայացքը թվային կտավի վրա։ Կոնտենտ կրեատոր՝ իմ աչքերով, պատմություններ՝ առանց բառերի։", courses: ["academy-pro"] },
+  { name: "Goga", handle: "dg.goga", url: "https://www.instagram.com/dg.goga", platform: "instagram", bio: "Ես կոնտենտ կրեատոր եմ, ով արագ է կողմնորոշվում, աշխատում է սեղմ ժամկետներում և միշտ պահում է բարձր որակի ստանդարտ։ Ստեղծում եմ վիզուալներ, որոնք ոչ միայն տեսողական հաճույք են տալիս, այլ նաև արդյունավետ գործիք են վաճառքի համար։", courses: ["academy"] },
+  { name: "Sarah", handle: "sarah.ai.studio", url: "https://www.instagram.com/sarah.ai.studio", platform: "instagram", bio: "AI Creative Director։ Գործիքները փոխվում են, ձեռագիրը՝ ոչ։ AI ads որ վաճառում են՝ իմ ձեռագրով։ Reels · UGC · Music Videos · Visuals · Animated ads։", courses: ["academy-pro"] },
+  { name: "Heline", handle: "aiwithhelin", url: "https://www.instagram.com/aiwithhelin", platform: "instagram", bio: "Ես graphic designer և AI կոնտենտ կրեատոր եմ, ստեղծում եմ մաքուր, ոճային և բիզնեսին համապատասխան վիզուալներ՝ photo, video և դիզայն ձևաչափերով։ Ինձ ընտրում են, որովհետև իմ կոնտենտը ոչ միայն գեղեցիկ է, այլ նաև գրավում է ուշադրություն և վերածվում է իրական վաճառքի։", courses: ["academy-pro"] },
+  { name: "Narek", handle: "narek.ai.lab", url: "https://www.instagram.com/narek.ai.lab", platform: "instagram", bio: "Արդեն 4 տարի մարքեթինգում և իրական բրենդների հետ աշխատելը սովորեցրեց ինձ, թե ինչ կոնտենտ է մարդկանց շարժում։ AI-ը թույլ է տալիս դա անել ավելի արագ ու մեծ մասշտաբով։ Կարող եմ գնալ համարձակ գաղափարների, ունեմ ստեղծագործական միտք, տալիս եմ անսպասելի լուծումներ (շնորհիվ ինժեներական կրթության), բայց միշտ հիշում եմ, որ արդյունքում դա պետք է աշխատի։", courses: ["academy"] },
+  { name: "Greta Hovsepyan", handle: "ai_with_g", url: "https://www.instagram.com/ai_with_g", platform: "instagram", bio: "Ես ստեղծում եմ կոնտենտ նրբաճաշակ էսթետիկայով, որտեղ յուրաքանչյուր դետալ մտածված է՝ փոխանցելու բրենդի ոճն ու տրամադրությունը։", courses: ["academy"] },
+  { name: "Mariam Ailian", handle: "ai_by_human", url: "https://www.instagram.com/ai_by_human", platform: "instagram", bio: "Ես Մարիամն եմ, բժիշկ։ Բժշկական կոնտենտ, վիդեոներ, որոնք իրական են ու պահանջված, և՛ բժշկի, և՛ պացիենտի կողմից, կարող է ստեղծել մարդը, ով ամեն օր գտնվում է այդ միջավայրում։ AI կոնտենտ կրեատոր բժիշկ դեռ չկա 😁։ Որպես մարքեթինգի հայտնի զոհ և մարդկանց հոգեբանություն իմացող մարդ՝ գիտեմ ինչն է գրավում մարդկանց պրոդուկտի մեջ։", courses: ["academy"] },
+  { name: "Karine GH.", handle: "karineeee_ai", url: "https://www.instagram.com/karineeee_ai", platform: "instagram", bio: "Ես ստեղծում եմ ազդեցիկ վիզուալ կոնտենտ այն բրենդների համար, որոնք ցանկանում են առանձնանալ։ Ունեմ ավելի քան 6 տարվա փորձ մարքեթինգում և խորացված գիտելիքներ առաջադեմ AI ստեղծագործական գործիքների մեջ։ Համադրում եմ մարքեթինգային մտածողությունն ու AI գործիքները՝ ստեղծելով գեղեցիկ, բրենդին համապատասխանող և արդյունք բերող կոնտենտ։", courses: ["academy"] },
+  { name: "Eva Babayan", handle: "ja_vie_co", url: "https://www.instagram.com/ja_vie_co", platform: "instagram", bio: "Ստեղծում ենք կոնտենտ և փորձառություններ։ AI • Cinematic • Events։ Նաև event host և voice artist։ Համադրում եմ մարքեթինգային փորձս ու AI հնարավորությունները՝ ստեղծելով ավելի ուժեղ, արագ ու արդյունավետ գովազդ։", courses: ["academy", "academy-pro"] },
+];
+
+const courseLabels = {
+  "academy-pro": "AI Content Academy Pro",
+  "academy": "AI Content Academy",
+  "creator": "AI Creator",
+};
+
+const grid = document.getElementById("grid");
+let activeFilter = "all";
+
+function getInitials(name){
+  const cleaned = name.replace(/^@/, "").trim();
+  const parts = cleaned.split(/\s+/);
+  if(parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+  return cleaned.slice(0, 2).toUpperCase();
+}
+
+function renderCard(a){
+  const initials = getInitials(a.name);
+  const platformIcon = ICONS[a.platform] || ICONS.external;
+  const services = a.courses.map((c, i) => `<span class="${i === 0 ? 'service' : 'service alt'}">${courseLabels[c] || c}</span>`).join("");
+
+  // Avatars pre-fetched into ./avatars/{handle}.jpg (run fetch-avatars.sh to refresh)
+  let photoUrl = "";
+  if(a.platform === "instagram") photoUrl = `./avatars/${a.handle}.jpg`;
+
+  const photoTag = photoUrl
+    ? `<img class="photo" src="${photoUrl}" alt="${a.name}" loading="lazy" onerror="this.closest('.avatar').classList.add('no-photo')">`
+    : "";
+
+  const secondaryBtn = a.telegram
+    ? `<a class="cta-secondary" href="https://t.me/${a.telegram}" target="_blank" rel="noopener" title="Message on Telegram" aria-label="Message on Telegram">${ICONS.telegram}</a>`
+    : `<a class="cta-secondary" href="${a.url}" target="_blank" rel="noopener" title="Open profile" aria-label="Open profile">${ICONS.external}</a>`;
+
+  const handleLabel = (a.platform === "instagram" || a.platform === "telegram") ? `@${a.handle}` : a.handle;
+
+  return `
+    <article class="card">
+      <span class="verified"><span class="check">✓</span>Approved</span>
+      <div class="avatar ${photoUrl ? '' : 'no-photo'}">
+        ${photoTag}
+        <span class="initials" aria-hidden="true">${initials}</span>
+        <span class="platform ${a.platform}" aria-hidden="true">${platformIcon}</span>
+      </div>
+      <h3 class="name">${a.name}</h3>
+      <span class="handle-pill">${platformIcon}${handleLabel}</span>
+      <p class="bio" title="${a.bio.replace(/"/g, '&quot;')}">${a.bio}</p>
+      <div class="services">${services}</div>
+      <div class="cta-row">
+        <a class="cta" href="${a.url}" target="_blank" rel="noopener">${ICONS.arrow} Տեսնել պորտֆոլիոն</a>
+        ${secondaryBtn}
+      </div>
+    </article>
+  `;
+}
+
+function render(){
+  const filtered = activeFilter === "all" ? alumni : alumni.filter(a => a.courses.includes(activeFilter));
+  if(filtered.length === 0){
+    grid.innerHTML = '<div class="empty">Չկան համապատասխան շրջանավարտներ։</div>';
+  } else {
+    grid.innerHTML = filtered.map(renderCard).join("") + `
+      <div class="join-card">
+        <h3>Ուզու՞մ եք լինել այս էջում։</h3>
+        <p>HUVA Academy-ի հաջորդ խումբը մայիսի 20-ին է մեկնարկում։ Ավարտեք կուրսը, պատրաստեք ձեր պորտֆոլիոն, և կհայտնվեք այստեղ՝ բիզնեսների համար։</p>
+        <a class="cta" href="https://huva.io">Միանալ հաջորդ խմբին →</a>
+      </div>
+    `;
+  }
+  document.querySelector('[data-stat="visible"]').textContent = `· ${filtered.length}`;
+}
+
+document.querySelector('[data-stat="total"]').textContent = alumni.length;
+document.querySelector('[data-stat="pro"]').textContent = alumni.filter(a => a.courses.includes("academy-pro")).length;
+document.querySelector('[data-stat="creator"]').textContent = alumni.filter(a => a.courses.includes("creator")).length;
+
+document.getElementById("chips").addEventListener("click", e => {
+  const btn = e.target.closest(".chip");
+  if(!btn) return;
+  document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+  btn.classList.add("active");
+  activeFilter = btn.dataset.filter;
+  render();
+});
+
+render();
+</script>
+</body>
+</html>

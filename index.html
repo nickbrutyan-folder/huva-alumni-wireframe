@@ -81,7 +81,7 @@
     transition: background-color 200ms ease-out, transform 200ms ease-out;
   }
   .nav-join:hover { background: #0f00e0; transform: translateY(-1px); }
-  .nav-lang { display: flex; align-items: center; gap: 6px; padding: 8px; border-radius: 8px; flex-shrink: 0; position: relative; cursor: pointer; }
+  .nav-lang { display: flex; align-items: center; gap: 6px; padding: 8px; border-radius: 8px; flex-shrink: 0; position: relative; cursor: pointer; user-select: none; }
   .nav-lang-flag { width: 16px; height: 16px; border-radius: 50%; overflow: hidden; flex-shrink: 0; display: inline-flex; }
   .nav-lang-flag svg { width: 100%; height: 100%; }
   .nav-lang-text {
@@ -90,6 +90,31 @@
     text-transform: uppercase; color: #1e1e1e;
   }
   .nav-lang-chevron { width: 12px; height: 8px; transition: transform 0.2s; opacity: 0.5; }
+  .nav-lang.open .nav-lang-chevron { transform: rotate(180deg); }
+
+  .lang-dropdown {
+    display: none; position: absolute; top: calc(100% + 8px); right: 0;
+    background: #fff; border-radius: 12px; padding: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12); flex-direction: column;
+    min-width: 180px; z-index: 200;
+  }
+  .nav-lang.open .lang-dropdown { display: flex; }
+  .lang-option {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: 8px; background: transparent;
+    border: 0; cursor: pointer; white-space: nowrap; width: 100%;
+    text-align: left; transition: background 0.15s;
+  }
+  .lang-option:hover { background: rgba(0,0,0,0.04); }
+  .lang-option-flag { width: 18px; height: 18px; border-radius: 50%; overflow: hidden; flex-shrink: 0; display: inline-flex; }
+  .lang-option-flag svg { width: 100%; height: 100%; }
+  .lang-option-name {
+    font-family: var(--font); font-weight: 500; font-size: 14px;
+    color: #1e1e1e; flex: 1;
+  }
+  .lang-option.active .lang-option-name { font-weight: 700; }
+  .lang-option-check { font-size: 14px; color: var(--blue); font-weight: 700; opacity: 0; }
+  .lang-option.active .lang-option-check { opacity: 1; }
   .nav-hamburger {
     display: none; flex-direction: column; gap: 7px; padding: 4px;
   }
@@ -418,21 +443,36 @@
       </svg>
     </a>
     <ul class="nav-links">
-      <li><a href="https://huva.io/#instructors">Դասախոսներ</a></li>
-      <li><a href="https://huva.io/#course-plan">Ծրագիր</a></li>
-      <li><a href="https://huva.io/#how-works">Ֆորմատ</a></li>
-      <li><a href="#" class="active">Շրջանավարտներ</a></li>
-      <li><a href="https://huva.io/#faq">FAQ</a></li>
+      <li><a href="https://huva.io/#instructors" data-i18n="nav_instructors">Դասախոսներ</a></li>
+      <li><a href="https://huva.io/#course-plan" data-i18n="nav_program">Ծրագիր</a></li>
+      <li><a href="https://huva.io/#how-works" data-i18n="nav_format">Ֆորմատ</a></li>
+      <li><a href="#" class="active" data-i18n="nav_alumni">Շրջանավարտներ</a></li>
+      <li><a href="https://huva.io/#faq" data-i18n="nav_faq">FAQ</a></li>
     </ul>
     <div class="nav-actions">
-      <button class="nav-join">ՄԻԱՑԻՐ ՀԻՄԱ</button>
-      <div class="nav-lang">
-        <span class="nav-lang-flag" aria-hidden="true">
-          <!-- Armenian flag (simplified tricolor) -->
+      <button class="nav-join" data-i18n="nav_join">ՄԻԱՑԻՐ ՀԻՄԱ</button>
+      <div class="nav-lang" id="navLang">
+        <span class="nav-lang-flag" id="navLangFlag" aria-hidden="true">
           <svg viewBox="0 0 16 16"><rect width="16" height="5.33" y="0" fill="#d90012"/><rect width="16" height="5.34" y="5.33" fill="#0033a0"/><rect width="16" height="5.33" y="10.67" fill="#f2a800"/></svg>
         </span>
-        <span class="nav-lang-text">HY</span>
+        <span class="nav-lang-text" id="navLangText">HY</span>
         <svg class="nav-lang-chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1.5L6 6.5L11 1.5" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="lang-dropdown" id="langDropdown">
+          <button class="lang-option" data-lang="hy">
+            <span class="lang-option-flag">
+              <svg viewBox="0 0 16 16"><rect width="16" height="5.33" y="0" fill="#d90012"/><rect width="16" height="5.34" y="5.33" fill="#0033a0"/><rect width="16" height="5.33" y="10.67" fill="#f2a800"/></svg>
+            </span>
+            <span class="lang-option-name">Armenian</span>
+            <span class="lang-option-check">✓</span>
+          </button>
+          <button class="lang-option" data-lang="en">
+            <span class="lang-option-flag">
+              <svg viewBox="0 0 60 60" preserveAspectRatio="xMidYMid slice"><rect width="60" height="60" fill="#012169"/><path d="M0,0 L60,60 M60,0 L0,60" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,60 M60,0 L0,60" stroke="#C8102E" stroke-width="3"/><path d="M30,0 L30,60 M0,30 L60,30" stroke="#fff" stroke-width="10"/><path d="M30,0 L30,60 M0,30 L60,30" stroke="#C8102E" stroke-width="6"/></svg>
+            </span>
+            <span class="lang-option-name">English</span>
+            <span class="lang-option-check">✓</span>
+          </button>
+        </div>
       </div>
       <button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
@@ -441,22 +481,22 @@
 
 <!-- ────── HERO (alumni-specific) ────── -->
 <section class="hero">
-  <span class="eyebrow"><span class="pulse"></span>HUVA Academy · Շրջանավարտներ</span>
-  <h1>Մեր <span class="accent">շրջանավարտները</span>։</h1>
-  <p class="sub">Հայ պրոֆեսիոնալներ, ովքեր ավարտել են HUVA Academy-ն և ամեն օր ստեղծում, ներկայացնում ու վաճառում են AI-ով։ Աշխատեցրեք, հետևեք, սովորեք նրանցից։</p>
+  <span class="eyebrow"><span class="pulse"></span><span data-i18n="hero_eyebrow">HUVA Academy · Շրջանավարտներ</span></span>
+  <h1><span data-i18n="hero_title_pre">Մեր</span> <span class="accent" data-i18n="hero_title_accent">շրջանավարտները</span><span data-i18n="hero_title_punct">։</span></h1>
+  <p class="sub" data-i18n="hero_sub">Հայ պրոֆեսիոնալներ, ովքեր ավարտել են HUVA Academy-ն և ամեն օր ստեղծում, ներկայացնում ու վաճառում են AI-ով։ Աշխատեցրեք, հետևեք, սովորեք նրանցից։</p>
 </section>
 
 <div class="stats">
-  <div class="stat"><div class="num" data-stat="total">—</div><div class="label">Շրջանավարտներ</div></div>
+  <div class="stat"><div class="num" data-stat="total">—</div><div class="label" data-i18n="stat_graduates">Շրջանավարտներ</div></div>
   <div class="stat"><div class="num" data-stat="pro">—</div><div class="label">Academy Pro</div></div>
   <div class="stat"><div class="num" data-stat="creator">—</div><div class="label">AI Creator</div></div>
   <div class="stat"><div class="num">100%</div><div class="label">AI-native</div></div>
 </div>
 
 <div class="filters">
-  <h2>Շրջանավարտներ <span class="count" data-stat="visible"></span></h2>
+  <h2><span data-i18n="filter_alumni">Շրջանավարտներ</span> <span class="count" data-stat="visible"></span></h2>
   <div class="chips" id="chips">
-    <button class="chip active" data-filter="all">Բոլորը</button>
+    <button class="chip active" data-filter="all" data-i18n="filter_all">Բոլորը</button>
     <button class="chip" data-filter="academy-pro">Academy Pro</button>
     <button class="chip" data-filter="academy">AI Content Academy</button>
     <button class="chip" data-filter="creator">AI Creator</button>
@@ -478,20 +518,108 @@
       <path d="M139.472 2.45605L150 29.5937H144.657L142.066 22.8689H128.664L126.073 29.5937H121.053L131.499 2.45605H139.475H139.472ZM130.323 18.5357H140.363L136.031 7.31583H134.655L130.323 18.5357Z" fill="#fff"/>
     </svg>
   </div>
-  <p class="footer-copyright">© 2026 HUVA Academy. Think human. Build AI.</p>
+  <p class="footer-copyright" data-i18n="footer_copyright">© 2026 HUVA Academy. Think human. Build AI.</p>
   <div class="footer-socials">
-    <a href="https://www.linkedin.com/company/huva-academy" target="_blank" rel="noopener" class="footer-social-link">LINKEDIN</a>
-    <a href="https://www.instagram.com/aiwithani" target="_blank" rel="noopener" class="footer-social-link">INSTAGRAM</a>
+    <a href="https://www.linkedin.com/company/huva-academy" target="_blank" rel="noopener" class="footer-social-link" data-i18n="footer_linkedin">LINKEDIN</a>
+    <a href="https://www.instagram.com/aiwithani" target="_blank" rel="noopener" class="footer-social-link" data-i18n="footer_instagram">INSTAGRAM</a>
   </div>
 </footer>
 
 <!-- ────── STICKY CTA (live huva.io) ────── -->
 <div class="sticky-cta">
-  <div class="sticky-cta-text">Միացիր հաջորդ խմբին, <strong>որ սկսվում է մայիսի 20-ից</strong></div>
-  <button class="sticky-cta-btn">Գալիս եմ</button>
+  <div class="sticky-cta-text"><span data-i18n="sticky_text">Միացիր հաջորդ խմբին,</span> <strong data-i18n="sticky_date">որ սկսվում է մայիսի 20-ից</strong></div>
+  <button class="sticky-cta-btn" data-i18n="sticky_join">Գալիս եմ</button>
 </div>
 
 <script>
+/* ────── i18n ────── */
+const T = {
+  hy: {
+    nav_instructors: "Դասախոսներ",
+    nav_program: "Ծրագիր",
+    nav_format: "Ֆորմատ",
+    nav_alumni: "Շրջանավարտներ",
+    nav_faq: "FAQ",
+    nav_join: "ՄԻԱՑԻՐ ՀԻՄԱ",
+    hero_eyebrow: "HUVA Academy · Շրջանավարտներ",
+    hero_title_pre: "Մեր",
+    hero_title_accent: "շրջանավարտները",
+    hero_title_punct: "։",
+    hero_sub: "Հայ պրոֆեսիոնալներ, ովքեր ավարտել են HUVA Academy-ն և ամեն օր ստեղծում, ներկայացնում ու վաճառում են AI-ով։ Աշխատեցրեք, հետևեք, սովորեք նրանցից։",
+    stat_graduates: "Շրջանավարտներ",
+    filter_alumni: "Շրջանավարտներ",
+    filter_all: "Բոլորը",
+    card_cta: "Տեսնել պորտֆոլիոն",
+    card_approved: "Approved",
+    card_telegram_title: "Գրել Telegram-ով",
+    card_open_title: "Բացել պրոֆիլը",
+    join_title: "Ուզու՞մ եք լինել այս էջում։",
+    join_text: "HUVA Academy-ի հաջորդ խումբը մայիսի 20-ին է մեկնարկում։ Ավարտեք կուրսը, պատրաստեք ձեր պորտֆոլիոն, և կհայտնվեք այստեղ՝ բիզնեսների համար։",
+    join_cta: "Միանալ հաջորդ խմբին →",
+    empty: "Չկան համապատասխան շրջանավարտներ։",
+    sticky_text: "Միացիր հաջորդ խմբին,",
+    sticky_date: "որ սկսվում է մայիսի 20-ից",
+    sticky_join: "Գալիս եմ",
+    footer_copyright: "© 2026 HUVA Academy. Think human. Build AI.",
+    footer_linkedin: "LINKEDIN",
+    footer_instagram: "INSTAGRAM",
+  },
+  en: {
+    nav_instructors: "Lecturers",
+    nav_program: "Program",
+    nav_format: "Format",
+    nav_alumni: "Alumni",
+    nav_faq: "FAQ",
+    nav_join: "JOIN THE COURSE",
+    hero_eyebrow: "HUVA Academy · Alumni",
+    hero_title_pre: "Meet our",
+    hero_title_accent: "graduates",
+    hero_title_punct: ".",
+    hero_sub: "Armenian AI content creators who finished HUVA Academy. They build, ship, and deliver with AI every day. Hire them, follow them, learn from them.",
+    stat_graduates: "Graduates",
+    filter_alumni: "The Alumni",
+    filter_all: "All",
+    card_cta: "View Portfolio",
+    card_approved: "Approved",
+    card_telegram_title: "Message on Telegram",
+    card_open_title: "Open profile",
+    join_title: "Want to be on this page?",
+    join_text: "Cohort 2 of HUVA Academy is open for applications. Finish the build, ship your portfolio, and you'll be featured here for every business looking for AI-native talent in Armenia.",
+    join_cta: "Apply for Cohort 2 →",
+    empty: "No alumni match this filter yet.",
+    sticky_text: "Join the next round",
+    sticky_date: "on May 20",
+    sticky_join: "JOIN THE COURSE",
+    footer_copyright: "© 2026 HUVA Academy. Think human. Build AI.",
+    footer_linkedin: "LINKEDIN",
+    footer_instagram: "INSTAGRAM",
+  }
+};
+
+let lang = (localStorage.getItem("huva_lang") === "en") ? "en" : "hy";
+function t(key){ return (T[lang] && T[lang][key]) || T.hy[key] || key; }
+
+function applyLang(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const k = el.dataset.i18n;
+    if (T[lang][k] !== undefined) el.textContent = T[lang][k];
+  });
+  document.getElementById("navLangText").textContent = lang.toUpperCase();
+  const flagSvg = lang === "en"
+    ? '<svg viewBox="0 0 60 60" preserveAspectRatio="xMidYMid slice"><rect width="60" height="60" fill="#012169"/><path d="M0,0 L60,60 M60,0 L0,60" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,60 M60,0 L0,60" stroke="#C8102E" stroke-width="3"/><path d="M30,0 L30,60 M0,30 L60,30" stroke="#fff" stroke-width="10"/><path d="M30,0 L30,60 M0,30 L60,30" stroke="#C8102E" stroke-width="6"/></svg>'
+    : '<svg viewBox="0 0 16 16"><rect width="16" height="5.33" y="0" fill="#d90012"/><rect width="16" height="5.34" y="5.33" fill="#0033a0"/><rect width="16" height="5.33" y="10.67" fill="#f2a800"/></svg>';
+  document.getElementById("navLangFlag").innerHTML = flagSvg;
+  document.querySelectorAll(".lang-option").forEach(o => o.classList.toggle("active", o.dataset.lang === lang));
+  if (typeof render === "function") render();
+}
+function setLang(newLang){
+  lang = (newLang === "en") ? "en" : "hy";
+  localStorage.setItem("huva_lang", lang);
+  applyLang();
+}
+
+/* SVG icons */
 const ICONS = {
   instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.4a4 4 0 1 1-7.9 1.1 4 4 0 0 1 7.9-1.1z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>',
   linkedin: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.4 20.4h-3.6v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9v5.7H9.2V9h3.5v1.6h.05c.5-.9 1.7-1.9 3.4-1.9 3.6 0 4.3 2.4 4.3 5.5v6.2zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM7.1 20.4H3.5V9h3.6v11.4z"/></svg>',
@@ -502,62 +630,62 @@ const ICONS = {
 };
 
 const alumni = [
-  { name: "Ani Azatyan", handle: "ani_aesthetic1", url: "https://www.instagram.com/ani_aesthetic1", platform: "instagram", bio: "Ես ոչ թե պարզապես կոնտենտ եմ ստեղծում, այլ գաղափարներ՝ որոնք աշխատում են։", courses: ["academy"] },
-  { name: "Lianna Krtshatsyan", handle: "monmart.visuals", url: "https://www.instagram.com/monmart.visuals", platform: "instagram", bio: "Ունեմ նկարչական կրթություն (Թերլեմեզյան-Թատերական նախկին ուսանող) ու յուրաքանչյուր դետալին նայում եմ հետաքրքիր եւ անսովոր տեսանկյուններից։", courses: ["academy-pro"] },
-  { name: "Zara Namalyan", handle: "zara.aiads", url: "https://www.instagram.com/zara.aiads", platform: "instagram", bio: "Կոնտենտի ստեղծումից բացի կարևոր է նաև ուսումնասիրել բրենդի ռազմավարությունն ու նպատակները, մրցակցային շուկան, ինչն էլ հնարավոր է դարձնում ավելի նպատակային լինելու իմ դեպքում, քանի որ մարքեթինգի մասնագետ եմ՝ ավելի քան 6 տարվա փորձով։", courses: ["academy", "academy-pro"] },
-  { name: "HAgency AI", handle: "hagency.ai", url: "https://www.instagram.com/hagency.ai", platform: "instagram", bio: "Կրեատորը այն մարդն է, ով տեսնում է սովորականը ոչ սովորական ձևով։ Ինձ պետք է ընտրեն, որովհետև ստեղծում եմ նորարարական և հիշվող կոնտենտ, որը օգնում է բրենդներին աճել։", courses: ["academy-pro"] },
-  { name: "Mellaniyya", handle: "melaniacreates", url: "https://www.instagram.com/melaniacreates", platform: "instagram", bio: "Ես content creator եմ, ով ստեղծում է գեղագիտական, մտածված և ժամանակակից վիզուալ կոնտենտ՝ թե՛ AI-ի, թե՛ սովորական նկարահանումների միջոցով։ Բիզնեսները կարող են ընտրել ինձ, որովհետև հասկանում եմ բրենդի ոճը, տրամադրությունը և այն, թե ինչպիսի կոնտենտն է օգնում առանձնանալ։", courses: ["academy-pro"] },
-  { name: "Anya Wanessian", handle: "ai.anyawanessian", url: "https://www.instagram.com/ai.anyawanessian", platform: "instagram", bio: "Ես համադրում եմ PR մտածողությունը և AI կոնտենտը՝ ստեղծելով բրենդների համար ռազմավարական և մասշտաբավորվող վիզուալներ։ Ինձ ընտրում են, որովհետև ստեղծում եմ կոնտենտ, որը ոչ միայն գեղեցիկ է, այլ նաև ճիշտ դիրքավորում է բիզնեսը շուկայում։", courses: ["academy", "academy-pro"] },
-  { name: "Anush", handle: "ai.byanush", url: "https://www.instagram.com/ai.byanush", platform: "instagram", bio: "Նախքան վիզուալներ ստեղծելը խորությամբ ուսումնասիրում եմ բիզնեսի պատմությունն ու արժեքները։ Սա թույլ է տալիս ստեղծել այնպիսի կոնտենտ, որը ոչ միայն էսթետիկ է, այլև իրականում արտացոլում է բրենդի ինքնությունը։", courses: ["academy-pro"] },
-  { name: "Gor (BaGorE)", handle: "heema_studio_", url: "https://www.instagram.com/heema_studio_", platform: "instagram", bio: "Ես AI վիզուալ արտիստ եմ, ստեղծում եմ էսթետիկ և գրավիչ վիզուալներ՝ միավորելով արվեստը, մոդան և storytelling-ը։ Ստեղծում եմ վիզուալ պատմություններ, որոնք գրավում են ուշադրություն և բարձրացնում բրենդի արժեքը։", courses: ["creator", "academy"] },
-  { name: "Elen H.", handle: "elendoes.ai", url: "https://www.instagram.com/elendoes.ai", platform: "instagram", bio: "Ինձ տարբերակող կողմը offline video production-ի փորձն է գովազդների եւ reel-երի հարցում, ինչի շնորհիվ AI-ով կոնտենտի ստեղծման մի շարք պրոցեսներ ավելի սահուն են անցնում։ Քանի որ ինքս սցենարիստ եմ, փնտրում եմ մտքի ներկայացման հետաքրքիր անկյուններ, որոնք էմոցիոնալ ազդեցություն են թողնում։", courses: ["academy"] },
-  { name: "Aeloria AI", handle: "aeloria_ai", url: "https://www.instagram.com/aeloria_ai", platform: "instagram", bio: "Ես ստեղծում եմ AI-powered cinematic վիզուալներ, որոնք գրավում են ուշադրությունը և բարձրացնում բրենդի ներգրավվածությունը։ Կաշխատեմ ձեր գաղափարները վերածել հստակ, հիշվող և վաճառող կոնտենտի։", courses: ["academy", "academy-pro"] },
-  { name: "Elen Baghdasaryan", handle: "pure.visuals.ai", url: "https://www.instagram.com/pure.visuals.ai", platform: "instagram", bio: "Ես աշխատում եմ fashion և beauty բրենդների հետ՝ ստեղծելով բարձրակարգ, իրականին մոտ վիզուալներ։ Եթե ուզում եք ռեալիզմ և պրեմիում արդյունք՝ կարող եք դիմել ինձ։", courses: ["creator"] },
-  { name: "Tatevik Aloyan", handle: "tatevikaloyan", url: "https://www.behance.net/gallery/244623161/Portfolio", platform: "behance", bio: "Ունեմ մեծ փորձ AI-ով վիզուալների ստեղծման ոլորտում՝ զանազան բրենդների և արտիստների համար։ Աշխատում եմ կոնցեպտից մինչև վերջնական արդյունք՝ մեծ ուշադրություն դարձնելով ռեալիզմին, բրենդին համապատասխան մթնոլորտի ստեղծմանը և ազդեցիկ վիզուալ պատմությանը։", courses: ["academy"] },
-  { name: "Ani AI Digital", handle: "ani_ai_digital", url: "https://www.instagram.com/ani_ai_digital", platform: "instagram", bio: "Ես ստեղծում եմ ոչ թե պարզապես գեղեցիկ վիդեոներ, այլ վաճառող, կինեմատոգրաֆիկ կոնտենտ՝ որտեղ համադրված են էմոցիան, շարժումը և բրենդային պատմությունը։ Յուրաքանչյուր աշխատանքում ուշադրություն եմ դարձնում մանր դետալներին։", courses: ["creator"] },
-  { name: "Annie (AI Club Yerevan)", handle: "aiclubyerevan", url: "https://www.instagram.com/aiclubyerevan", platform: "instagram", bio: "AI Creator՝ վերածում եմ գաղափարները ֆոտոների ու Reel-ների։ Content boost AI-ով։ Սիրում եմ համատեղել անհամատեղելիի հետ՝ ոչ ստանդարտ մոտեցումներ, նվիրված աշխատանք։", courses: ["creator"] },
-  { name: "Karine Petrosyan", handle: "ai_fabric", url: "https://www.instagram.com/ai_fabric", platform: "instagram", bio: "I'm a Content Marketing Specialist and AI-driven Video Content Creator passionate about turning ideas into impactful digital experiences. I create AI solutions that work for real businesses — I collaborate with companies, use the latest AI tools, and deliver each project to completion with clear deadlines.", courses: ["academy", "academy-pro"] },
-  { name: "Sylvie Kh.", handle: "sylvie.aiexperience", url: "https://www.instagram.com/sylvie.aiexperience", platform: "instagram", bio: "Երկար տարիներ աշխատել եմ բիզնեսների հետ՝ օգնելով դրանց տեսանելիության բարձրացմանն ու գրագետ ներկայացմանը։ Հիմա, AI Content Creation-ի գիտելիքները հաշվի առնելով, կարող եմ բիզնեսներին տրամադրել ամբողջական PR փաթեթներ՝ ներառելով տեսլականը պատրաստի վիզուալների վերածելու ծառայությունը։", courses: ["academy"] },
-  { name: "Anna", handle: "aiwithann", url: "https://www.instagram.com/aiwithann", platform: "instagram", bio: "Քայլերս դեռ նոր են այս աշխարհում, բայց այն իսկապես ստեղծագործ մարդու համար գեղեցիկ աշխարհ է։ Ես փորձում եմ ստեղծել ոչ թե պարզապես գեղեցիկ վիզուալ, այլ կոնտենտ, որը գրավում է ուշադրություն և աշխատում է վաճառքի համար։", courses: ["academy", "academy-pro"] },
-  { name: "Mane Harutyunyan", handle: "maneharutyunian", url: "https://www.instagram.com/maneharutyunian", platform: "instagram", bio: "Լուսանկարիչ։ Overthinker։ Երբեմն՝ բողոքող 📸։ Եթե ուզում ես, որ քեզ նկատեն — ճիշտ տեղում ես։", courses: ["academy"] },
-  { name: "Lia Terzyan", handle: "lia.ai.creator", url: "https://www.instagram.com/lia.ai.creator", platform: "instagram", bio: "Տարիների դիզայնի փորձը, կրեատիվությունը և ստեղծագործելու անկեղծ սերը ինձ օգնում են ստեղծել կոնտենտ, որն աչքի է ընկնում և հիշվում։", courses: ["creator", "academy-pro"] },
-  { name: "House of AI Vision", handle: "houseofaivision", url: "https://www.instagram.com/houseofaivision", platform: "instagram", bio: "Ես ստեղծում եմ գրավիչ ու բնական կոնտենտ, որը օգնում է բիզնեսներին աճել։ Ինձ ընտրում են, որովհետև իմ վիզուալները բերում են իրական արդյունք։", courses: ["academy"] },
-  { name: "Anna (Vahanovna)", handle: "annaai_creativestudio", url: "https://www.instagram.com/annaai_creativestudio", platform: "instagram", bio: "Ես Աննան եմ՝ AI կոնտենտ կրեատոր, ով ստեղծում է կոնտենտ, որը ոչ թե պարզապես նայում են, այլ զգում են ու գնելու են։ Կարողանում եմ աշխատել շատ սեղմ ժամկետներում, վիզուալը վերածում եմ գործիքի՝ ուշադրություն գրավելու, վստահություն կառուցելու և վաճառք ստեղծելու համար։", courses: ["academy-pro"] },
-  { name: "Toma H.", handle: "softlight_lab", url: "https://www.instagram.com/softlight_lab", platform: "instagram", bio: "Ես ստեղծում եմ կոնտենտ, որը տարբերվող է և բրենդներին դարձնում է տեսանելի և տարբերակելի շուկայում։ Ինձ արժի ընտրել, որովհետև համադրում եմ էսթետիկան և բիզնես մտածողությունը։", courses: ["academy"] },
-  { name: "Anna Veziryan", handle: "anna-veziryan", url: "https://www.linkedin.com/in/anna-veziryan", platform: "linkedin", telegram: "Anna_Veziryan", bio: "Որպես մարքեթինգի մասնագետ՝ ոչ միայն ստեղծում եմ կոնտենտ, այլև խորությամբ տիրապետում եմ բիզնես գործընթացների բոլոր նրբություններին և տարբեր շուկաների (Հայաստան, ԱՄՆ, Ֆրանսիա, Շվեյցարիա) առանձնահատկություններին։ Իմ ուժեղ կողմը զրոյից կրեատիվ գաղափարների գեներացումն է, որը վերածում եմ ռազմավարական լուծումների։", courses: ["academy-pro"] },
-  { name: "Luiza Gh.", handle: "neuralstructure", url: "https://www.instagram.com/neuralstructure", platform: "instagram", bio: "Ես կենտրոնանում եմ այնպիսի բովանդակություն ստեղծելու վրա, որը հաճելի է զգացողության համար, այլ ոչ թե պարզապես գեղեցիկ տեսք ունի։ Այդ հուզական կապն է, որը մարդկանց ստիպում է կանգ առնել, դիտել և հիշել ապրանքանիշը։", courses: ["academy"] },
-  { name: "Mari Simonyan", handle: "by_marsim", url: "https://www.instagram.com/by_marsim", platform: "instagram", bio: "Ես կարողանում եմ ստեղծել հոլովակներ, որոնք ուշադրություն են գրավում առաջին պահից։ Բացի AI կրեատոր լինելուց իմ առաջին մասնագիտությունը մարքեթինգն է, որի միջոցով ավելի լավ եմ հասկանում բրենդների ճիշտ մոտեցումը և սպառողների վարքագիծը։", courses: ["academy"] },
-  { name: "AinTes", handle: "aintes_arm", url: "https://www.instagram.com/aintes_arm", platform: "instagram", bio: "Որպես կոնտենտ կրեատոր՝ ստեղծում եմ ինչպես դասական պրոդուկտային, այնպես էլ ավելի բարդ, ոչ ստանդարտ վիդեոներ։ Առաջարկում եմ լուծումներ ընկերություններին, որոնք փնտրում են ճկուն մոտեցում և ցանկանում են վիզուալիզացնել իրենց գաղափարները՝ անկախ բարդության։", courses: ["academy"] },
-  { name: "Elen Tsaturyan", handle: "ai_lab_armenia", url: "https://www.instagram.com/ai_lab_armenia", platform: "instagram", bio: "Շուրջ 10 տարի Instagram-ում տարբեր բրենդների էջերի առաջխաղացմամբ զբաղվելուց հետո հասկանում եմ, թե որ տեսակի կոնտենտն է ակտուալ տվյալ պահին։ Պունկտուալ եմ, պատասխանատու, սիրում եմ այն, ինչով զբաղվում եմ։", courses: ["academy"] },
-  { name: "Karpine S.", handle: "silver.ai.agency", url: "https://www.instagram.com/silver.ai.agency", platform: "instagram", bio: "Քանի որ մոտենում եմ բրենդինգի և մարքեթինգի ռազմավարության տեսանկյունից, ստեղծված վիզուալը հստակ պետք է լուծի խնդիր, որ տվյալ պահին ունի բիզնեսը, բացի գրավիչ լինելը։", courses: ["creator", "academy"] },
-  { name: "Hayk (AI Booben)", handle: "aibooben", url: "https://www.instagram.com/aibooben", platform: "instagram", bio: "Ստեղծում ենք կրեատիվ կոնտենտ, որպեսզի վիրուսային ձևով տարածվի։ Ձգտում ենք ստանալ մաքսիմալ անթերի աշխատանք։ Գնային քաղաքականության մեջ շատ ճկուն ենք։", courses: ["creator"] },
-  { name: "Ani Demurchian", handle: "ai_visuals_by_ani", url: "https://www.instagram.com/ai_visuals_by_ani", platform: "instagram", bio: "Աշխատանքներ կատարելիս կարևորում եմ ոչ միայն վերջնական արդյունքի գեղեցկությունը, այլ նաև այն, որ յուրաքանչյուր նախագիծ ունենա իր ինքնությունը, տրամադրությունը և հիշվող ազդեցությունը։", courses: ["academy-pro"] },
-  { name: "Mane Hovhannisyan", handle: "ai.withmane", url: "https://www.instagram.com/ai.withmane", platform: "instagram", bio: "Ունեմ մարքեթինգային ակադեմիական կրթություն, գրաֆիկ դիզայներ եմ, մարքեթոլոգ 4+ տարվա փորձով։ Ունեմ նաև UX/UI դիզայնի փորձ։ Դիզայն աչքս տեղն է, իսկ մարքեթինգը օգնում է, որ վիզուալները ստրատեգիկ լինեն։", courses: ["academy-pro"] },
-  { name: "Tatev Manukyan", handle: "tatev.visuals", url: "https://www.instagram.com/tatev.visuals", platform: "instagram", bio: "Ես գրաֆիկ դիզայներ եմ մասնագիտությամբ և ունեմ նաև նկարչական կրթություն, ինչի շնորհիվ մեծ ուշադրություն եմ դարձնում կոմպոզիցիային, գունային զգացողությանը և մանրուքներին։ Ստեղծում եմ մտածված ու aesthetic վիզուալներ, որոնք ոչ միայն գեղեցիկ են, այլ նաև փոխանցում են բրենդի տրամադրությունն ու գաղափարը։", courses: ["academy-pro", "creator"] },
-  { name: "Vard Khachatuni", handle: "your__ai__creator", url: "https://www.instagram.com/your__ai__creator", platform: "instagram", bio: "Ես ստեղծում եմ կոնտենտ, որը բնական կերպով գրավում է ուշադրությունը և հստակ արտացոլում բրենդի էությունը։ Առաջնային են ինձ համար դիմացինի ցանկությունները, և միշտ բաց եմ քննարկումների համար։", courses: ["academy"] },
-  { name: "Mariam UX", handle: "aidailydiary", url: "https://www.instagram.com/aidailydiary", platform: "instagram", bio: "Տրամադրում եմ համապատասխան ռեսուրսներ՝ լավագույն արդյունքի համար։ Ունեմ մեծ փորձ տարբեր բիզնեսների հետ համագործակցության շրջանակում, հասկանում եմ բիզնեսին ինչ առաջարկել, որպեսզի հասնեն նպատակներին։ Մեծ ներդրում եմ կատարում բուն գաղափարի մեջ, ինչը ավելի արժեքավոր եմ համարում։", courses: ["academy-pro", "creator"] },
-  { name: "Saten V.S.", handle: "aiwithsat", url: "https://www.instagram.com/aiwithsat", platform: "instagram", bio: "Ես Սաթենն եմ, երաժիշտ, mobile content creator և արդեն նաև AI content creator։ Ասում են, որ սիրունը տեսնելու հետաքրքիր հատկություն ունեմ, իսկ երաժշտական կրթությունն օգնում է տեսածս կամ ստեղծածս ավելի երաժշտական մատուցել։", courses: ["academy", "academy-pro"] },
-  { name: "Sweetlana Kh.", handle: "directed_fantasy", url: "https://www.instagram.com/directed_fantasy", platform: "instagram", bio: "Գրեթե 3 տարի աշխատում եմ որպես content creator՝ կենտրոնացած գաղափարներ գեներացնելու և ուրույն ոճով սցենարներ գրելու վրա միկրո/մակրո ինֆլյուենսերների, գովազդային ռիլերի և բրենդների համար։ Վերջին ամիսներին խորացել եմ creative producing-ի մեջ։", courses: ["academy-pro"] },
-  { name: "Ann Gyurjiyan", handle: "ann_mdbrd", url: "https://www.instagram.com/ann_mdbrd", platform: "instagram", bio: "Ես ստեղծում եմ կոնտենտ, որը էսթետիկ է և յուրահատուկ։ Սիրում եմ ստեղծել հետաքրքիր մտքեր՝ ոգեշնչվելով այն ամենից, ինչ շրջապատում է ինձ։ Իմ գործին մոտենում եմ շատ մեծ պատասխանատվությամբ՝ ուշադիր եմ ամեն մի դետալին։", courses: ["creator", "academy-pro"] },
-  { name: "Nune Poghosyan", handle: "nuneaicreator", url: "https://www.instagram.com/nuneaicreator", platform: "instagram", bio: "Ես IT ոլորտում աշխատում եմ ավելի քան 14 տարի և ամեն օր օգտագործում եմ AI իմ աշխատանքում, հասկանալով թե ինչպես է այն իրականում աշխատում։ Բիզնեսները կարող են ընտրել ինձ, որովհետև համադրում եմ տեխնիկական փորձը և ստեղծարար մոտեցումը՝ ստեղծելով արդյունավետ ու ժամանակակից կոնտենտ։", courses: ["academy-pro"] },
-  { name: "Ani Azatyan (Creator)", handle: "aiwithani_creator", url: "https://www.instagram.com/aiwithani_creator", platform: "instagram", bio: "Creative Director (AI)։ Cinematic վիզուալներ ու concept գովազդներ։ Emotion > Content։ Ստեղծում եմ ոչ միայն գեղեցիկ, այլ նպատակային կոնտենտ՝ որը գրավում է ուշադրություն և օգնում բրենդին ավելի ուժեղ ներկայանալ։", courses: ["creator"] },
-  { name: "Armine M.", handle: "armimarti_yan", url: "https://www.instagram.com/armimarti_yan", platform: "instagram", bio: "Reelmaker · SMM · AI Content Creator։ Օգնում եմ բրենդներին առանձնանալ կոնտենտով, որը գրավում է ուշադրությունը։", courses: ["academy", "academy-pro"] },
-  { name: "LilArt Retouch", handle: "lilart_ai", url: "https://www.instagram.com/lilart_ai", platform: "instagram", bio: "Ես ստեղծում եմ մաքուր վիզուալներ։ Իմ նպատակն է ստեղծել կոնտենտ, որը ոչ միայն գեղեցիկ է, այլ նաև բարձրացնում է բրենդի ընկալումը։", courses: ["creator"] },
-  { name: "Scripted AI", handle: "scripted._ai", url: "https://www.instagram.com/scripted._ai", platform: "instagram", bio: "Ես կոնտենտ կրեատոր եմ, ինչպես նաև՝ մասնագիտությամբ սցենարիստ և կինոռեժիսոր, ինչի շնորհիվ ստեղծում եմ կինեմատոգրաֆիկ բովանդակություն։ Իմ նպատակը պատմություններ պատմելն է, որոնք ոչ միայն գրավում են, այլև թողնում են հետք։", courses: ["academy"] },
-  { name: "Gohar", handle: "gohar_creates_with_ai", url: "https://www.instagram.com/gohar_creates_with_ai", platform: "instagram", bio: "Սիրում եմ ստեղծագործել, ոգեշնչվել արվեստից, պատմությունից և գաղափարներ վերածել վիզուալ պատմությունների։ Իմ ստեղծած կոնտենտը տարբերվող է, որովհետև համադրում եմ էսթետիկան և բիզնես մտածողությունը՝ օգնելով բրենդներին լինել տեսանելի, հիշվող և առանձնանալ շուկայում։", courses: ["academy", "academy-pro", "creator"] },
-  { name: "Victoria Y.", handle: "victoria.yvn", url: "https://www.instagram.com/victoria.yvn", platform: "instagram", bio: "Առաջին հայ AI բլոգերը։ Սովորեցնում եմ ճիշտ ներդնել AI-ը ձեր բիզնեսում։ Ֆիլտրված կոնտենտ, տարիների փորձ մարքեթինգում։", courses: ["academy", "academy-pro"] },
-  { name: "Milena Badalyan", handle: "badalian.ai", url: "https://www.instagram.com/badalian.ai", platform: "instagram", bio: "Ես ստեղծում եմ ոչ միայն վիզուալ գեղեցիկ կոնտենտ, այլ պատմություն, որը կապ է ստեղծում բրենդի ու մարդկանց միջև։ Ինձ ընտրելով՝ բիզնեսները ստանում են կրեատիվ մոտեցում, ուշադրություն դետալներին և արդյունք, որը առանձնանում է ու հիշվում։", courses: ["academy-pro"] },
-  { name: "Ani Darbinyan", handle: "ai.creator.ani", url: "https://www.instagram.com/ai.creator.ani", platform: "instagram", bio: "Ստեղծում եմ AI-ով ձևավորված վիզուալ գաղափարներ, որոնք օգնում են բիզնեսներին ներկայանալ ավելի ժամանակակից, տարբերվող և հիշվող կերպով։ Ինձ կարող են ընտրել այն բիզնեսները, որոնք ուզում են ոչ միայն գեղեցիկ կոնտենտ, այլ նաև բրենդին համապատասխան հստակ mood, ոճ և ստեղծարար ուղղություն։", courses: ["academy"] },
-  { name: "Yourfriday AI", handle: "yourfridayai", url: "https://www.instagram.com/yourfridayai", platform: "instagram", bio: "Full-service creative studio Երևանում 🇦🇲 և Լոս Անջելեսում 🇺🇸։ Creative Direction, Production, Strategy, Content, Graphics & Product Design։", courses: ["creator"] },
-  { name: "Gayane Manoukian", handle: "sssaiart.226", url: "https://www.instagram.com/sssaiart.226", platform: "instagram", bio: "AI art & video։ Իմ իրականությունը՝ AI-ով։ Մարդկային հայացքը թվային կտավի վրա։ Կոնտենտ կրեատոր՝ իմ աչքերով, պատմություններ՝ առանց բառերի։", courses: ["academy-pro"] },
-  { name: "Goga", handle: "dg.goga", url: "https://www.instagram.com/dg.goga", platform: "instagram", bio: "Ես կոնտենտ կրեատոր եմ, ով արագ է կողմնորոշվում, աշխատում է սեղմ ժամկետներում և միշտ պահում է բարձր որակի ստանդարտ։ Ստեղծում եմ վիզուալներ, որոնք ոչ միայն տեսողական հաճույք են տալիս, այլ նաև արդյունավետ գործիք են վաճառքի համար։", courses: ["academy"] },
-  { name: "Sarah", handle: "sarah.ai.studio", url: "https://www.instagram.com/sarah.ai.studio", platform: "instagram", bio: "AI Creative Director։ Գործիքները փոխվում են, ձեռագիրը՝ ոչ։ AI ads որ վաճառում են՝ իմ ձեռագրով։ Reels · UGC · Music Videos · Visuals · Animated ads։", courses: ["academy-pro"] },
-  { name: "Heline", handle: "aiwithhelin", url: "https://www.instagram.com/aiwithhelin", platform: "instagram", bio: "Ես graphic designer և AI կոնտենտ կրեատոր եմ, ստեղծում եմ մաքուր, ոճային և բիզնեսին համապատասխան վիզուալներ՝ photo, video և դիզայն ձևաչափերով։ Ինձ ընտրում են, որովհետև իմ կոնտենտը ոչ միայն գեղեցիկ է, այլ նաև գրավում է ուշադրություն և վերածվում է իրական վաճառքի։", courses: ["academy-pro"] },
-  { name: "Narek", handle: "narek.ai.lab", url: "https://www.instagram.com/narek.ai.lab", platform: "instagram", bio: "Արդեն 4 տարի մարքեթինգում և իրական բրենդների հետ աշխատելը սովորեցրեց ինձ, թե ինչ կոնտենտ է մարդկանց շարժում։ AI-ը թույլ է տալիս դա անել ավելի արագ ու մեծ մասշտաբով։ Կարող եմ գնալ համարձակ գաղափարների, ունեմ ստեղծագործական միտք, տալիս եմ անսպասելի լուծումներ (շնորհիվ ինժեներական կրթության), բայց միշտ հիշում եմ, որ արդյունքում դա պետք է աշխատի։", courses: ["academy"] },
-  { name: "Greta Hovsepyan", handle: "ai_with_g", url: "https://www.instagram.com/ai_with_g", platform: "instagram", bio: "Ես ստեղծում եմ կոնտենտ նրբաճաշակ էսթետիկայով, որտեղ յուրաքանչյուր դետալ մտածված է՝ փոխանցելու բրենդի ոճն ու տրամադրությունը։", courses: ["academy"] },
-  { name: "Mariam Ailian", handle: "ai_by_human", url: "https://www.instagram.com/ai_by_human", platform: "instagram", bio: "Ես Մարիամն եմ, բժիշկ։ Բժշկական կոնտենտ, վիդեոներ, որոնք իրական են ու պահանջված, և՛ բժշկի, և՛ պացիենտի կողմից, կարող է ստեղծել մարդը, ով ամեն օր գտնվում է այդ միջավայրում։ AI կոնտենտ կրեատոր բժիշկ դեռ չկա 😁։ Որպես մարքեթինգի հայտնի զոհ և մարդկանց հոգեբանություն իմացող մարդ՝ գիտեմ ինչն է գրավում մարդկանց պրոդուկտի մեջ։", courses: ["academy"] },
-  { name: "Karine GH.", handle: "karineeee_ai", url: "https://www.instagram.com/karineeee_ai", platform: "instagram", bio: "Ես ստեղծում եմ ազդեցիկ վիզուալ կոնտենտ այն բրենդների համար, որոնք ցանկանում են առանձնանալ։ Ունեմ ավելի քան 6 տարվա փորձ մարքեթինգում և խորացված գիտելիքներ առաջադեմ AI ստեղծագործական գործիքների մեջ։ Համադրում եմ մարքեթինգային մտածողությունն ու AI գործիքները՝ ստեղծելով գեղեցիկ, բրենդին համապատասխանող և արդյունք բերող կոնտենտ։", courses: ["academy"] },
-  { name: "Eva Babayan", handle: "ja_vie_co", url: "https://www.instagram.com/ja_vie_co", platform: "instagram", bio: "Ստեղծում ենք կոնտենտ և փորձառություններ։ AI • Cinematic • Events։ Նաև event host և voice artist։ Համադրում եմ մարքեթինգային փորձս ու AI հնարավորությունները՝ ստեղծելով ավելի ուժեղ, արագ ու արդյունավետ գովազդ։", courses: ["academy", "academy-pro"] },
+  { name: "Ani Azatyan", handle: "ani_aesthetic1", url: "https://www.instagram.com/ani_aesthetic1", platform: "instagram", bio: "Ես ոչ թե պարզապես կոնտենտ եմ ստեղծում, այլ գաղափարներ՝ որոնք աշխատում են։", bioEN: "I don't just create content — I create ideas that work.", courses: ["academy"] },
+  { name: "Lianna Krtshatsyan", handle: "monmart.visuals", url: "https://www.instagram.com/monmart.visuals", platform: "instagram", bio: "Ունեմ նկարչական կրթություն (Թերլեմեզյան-Թատերական նախկին ուսանող) ու յուրաքանչյուր դետալին նայում եմ հետաքրքիր եւ անսովոր տեսանկյուններից։", bioEN: "Trained in fine arts (former Terlemezyan and theatre student). I look at every detail from unexpected, unusual angles.", courses: ["academy-pro"] },
+  { name: "Zara Namalyan", handle: "zara.aiads", url: "https://www.instagram.com/zara.aiads", platform: "instagram", bio: "Կոնտենտի ստեղծումից բացի կարևոր է նաև ուսումնասիրել բրենդի ռազմավարությունն ու նպատակները, մրցակցային շուկան, ինչն էլ հնարավոր է դարձնում ավելի նպատակային լինելու իմ դեպքում, քանի որ մարքեթինգի մասնագետ եմ՝ ավելի քան 6 տարվա փորձով։", bioEN: "Beyond creating content, I dig into brand strategy, goals, and competitive landscape — that's what makes my work targeted. I'm a marketing specialist with 6+ years of experience.", courses: ["academy", "academy-pro"] },
+  { name: "HAgency AI", handle: "hagency.ai", url: "https://www.instagram.com/hagency.ai", platform: "instagram", bio: "Կրեատորը այն մարդն է, ով տեսնում է սովորականը ոչ սովորական ձևով։ Ինձ պետք է ընտրեն, որովհետև ստեղծում եմ նորարարական և հիշվող կոնտենտ, որը օգնում է բրենդներին աճել։", bioEN: "A creator is someone who sees the ordinary in extraordinary ways. Choose me because I create original, memorable content that helps brands grow.", courses: ["academy-pro"] },
+  { name: "Mellaniyya", handle: "melaniacreates", url: "https://www.instagram.com/melaniacreates", platform: "instagram", bio: "Ես content creator եմ, ով ստեղծում է գեղագիտական, մտածված և ժամանակակից վիզուալ կոնտենտ՝ թե՛ AI-ի, թե՛ սովորական նկարահանումների միջոցով։ Բիզնեսները կարող են ընտրել ինձ, որովհետև հասկանում եմ բրենդի ոճը, տրամադրությունը և այն, թե ինչպիսի կոնտենտն է օգնում առանձնանալ։", bioEN: "I'm a content creator building aesthetic, thoughtful, modern visuals — both AI-generated and traditional shoots. Brands choose me because I understand their style, mood, and what makes content stand out.", courses: ["academy-pro"] },
+  { name: "Anya Wanessian", handle: "ai.anyawanessian", url: "https://www.instagram.com/ai.anyawanessian", platform: "instagram", bio: "Ես համադրում եմ PR մտածողությունը և AI կոնտենտը՝ ստեղծելով բրենդների համար ռազմավարական և մասշտաբավորվող վիզուալներ։ Ինձ ընտրում են, որովհետև ստեղծում եմ կոնտենտ, որը ոչ միայն գեղեցիկ է, այլ նաև ճիշտ դիրքավորում է բիզնեսը շուկայում։", bioEN: "I combine PR thinking with AI content to create strategic, scalable visuals for brands. Clients choose me because my content isn't just beautiful — it also positions the business correctly in the market.", courses: ["academy", "academy-pro"] },
+  { name: "Anush", handle: "ai.byanush", url: "https://www.instagram.com/ai.byanush", platform: "instagram", bio: "Նախքան վիզուալներ ստեղծելը խորությամբ ուսումնասիրում եմ բիզնեսի պատմությունն ու արժեքները։ Սա թույլ է տալիս ստեղծել այնպիսի կոնտենտ, որը ոչ միայն էսթետիկ է, այլև իրականում արտացոլում է բրենդի ինքնությունը։", bioEN: "Before creating visuals, I deeply study the business's story and values. That lets me create content that's not just aesthetic — it actually reflects the brand's identity.", courses: ["academy-pro"] },
+  { name: "Gor (BaGorE)", handle: "heema_studio_", url: "https://www.instagram.com/heema_studio_", platform: "instagram", bio: "Ես AI վիզուալ արտիստ եմ, ստեղծում եմ էսթետիկ և գրավիչ վիզուալներ՝ միավորելով արվեստը, մոդան և storytelling-ը։ Ստեղծում եմ վիզուալ պատմություններ, որոնք գրավում են ուշադրություն և բարձրացնում բրենդի արժեքը։", bioEN: "I'm an AI visual artist combining art, fashion, and storytelling. I create visual stories that grab attention and elevate brand value.", courses: ["creator", "academy"] },
+  { name: "Elen H.", handle: "elendoes.ai", url: "https://www.instagram.com/elendoes.ai", platform: "instagram", bio: "Ինձ տարբերակող կողմը offline video production-ի փորձն է գովազդների եւ reel-երի հարցում, ինչի շնորհիվ AI-ով կոնտենտի ստեղծման մի շարք պրոցեսներ ավելի սահուն են անցնում։ Քանի որ ինքս սցենարիստ եմ, փնտրում եմ մտքի ներկայացման հետաքրքիր անկյուններ, որոնք էմոցիոնալ ազդեցություն են թողնում։", bioEN: "What sets me apart is my offline video production background in ads and reels — the whole AI content process flows more smoothly from idea to edit. As a scriptwriter, I find indirect, interesting angles that leave an emotional impression.", courses: ["academy"] },
+  { name: "Aeloria AI", handle: "aeloria_ai", url: "https://www.instagram.com/aeloria_ai", platform: "instagram", bio: "Ես ստեղծում եմ AI-powered cinematic վիզուալներ, որոնք գրավում են ուշադրությունը և բարձրացնում բրենդի ներգրավվածությունը։ Կաշխատեմ ձեր գաղափարները վերածել հստակ, հիշվող և վաճառող կոնտենտի։", bioEN: "I create AI-powered cinematic visuals that capture attention and boost brand engagement. I'll turn your ideas into clear, memorable, conversion-driven content.", courses: ["academy", "academy-pro"] },
+  { name: "Elen Baghdasaryan", handle: "pure.visuals.ai", url: "https://www.instagram.com/pure.visuals.ai", platform: "instagram", bio: "Ես աշխատում եմ fashion և beauty բրենդների հետ՝ ստեղծելով բարձրակարգ, իրականին մոտ վիզուալներ։ Եթե ուզում եք ռեալիզմ և պրեմիում արդյունք՝ կարող եք դիմել ինձ։", bioEN: "I work with fashion and beauty brands, creating premium, hyper-realistic visuals. If you want realism and a premium result, I'm your person.", courses: ["creator"] },
+  { name: "Tatevik Aloyan", handle: "tatevikaloyan", url: "https://www.behance.net/gallery/244623161/Portfolio", platform: "behance", bio: "Ունեմ մեծ փորձ AI-ով վիզուալների ստեղծման ոլորտում՝ զանազան բրենդների և արտիստների համար։ Աշխատում եմ կոնցեպտից մինչև վերջնական արդյունք՝ մեծ ուշադրություն դարձնելով ռեալիզմին, բրենդին համապատասխան մթնոլորտի ստեղծմանը և ազդեցիկ վիզուալ պատմությանը։", bioEN: "Years of experience creating AI visuals for diverse brands and artists. I work from concept to final result, with deep attention to realism, brand-aligned mood, and impactful visual storytelling.", courses: ["academy"] },
+  { name: "Ani AI Digital", handle: "ani_ai_digital", url: "https://www.instagram.com/ani_ai_digital", platform: "instagram", bio: "Ես ստեղծում եմ ոչ թե պարզապես գեղեցիկ վիդեոներ, այլ վաճառող, կինեմատոգրաֆիկ կոնտենտ՝ որտեղ համադրված են էմոցիան, շարժումը և բրենդային պատմությունը։ Յուրաքանչյուր աշխատանքում ուշադրություն եմ դարձնում մանր դետալներին։", bioEN: "I don't make merely pretty videos — I make selling, cinematic content where emotion, motion, and brand story come together. Every project gets obsessive attention to detail.", courses: ["creator"] },
+  { name: "Annie (AI Club Yerevan)", handle: "aiclubyerevan", url: "https://www.instagram.com/aiclubyerevan", platform: "instagram", bio: "AI Creator՝ վերածում եմ գաղափարները ֆոտոների ու Reel-ների։ Content boost AI-ով։ Սիրում եմ համատեղել անհամատեղելիի հետ՝ ոչ ստանդարտ մոտեցումներ, նվիրված աշխատանք։", bioEN: "AI Creator — I turn ideas into photos and reels. Content boost with AI. I love combining the uncombinable: non-standard approaches, dedicated work.", courses: ["creator"] },
+  { name: "Karine Petrosyan", handle: "ai_fabric", url: "https://www.instagram.com/ai_fabric", platform: "instagram", bio: "I'm a Content Marketing Specialist and AI-driven Video Content Creator passionate about turning ideas into impactful digital experiences. I create AI solutions that work for real businesses — I collaborate with companies, use the latest AI tools, and deliver each project to completion with clear deadlines.", bioEN: "I'm a Content Marketing Specialist and AI-driven Video Content Creator passionate about turning ideas into impactful digital experiences. I create AI solutions that work for real businesses — I collaborate with companies, use the latest AI tools, and deliver each project to completion with clear deadlines.", courses: ["academy", "academy-pro"] },
+  { name: "Sylvie Kh.", handle: "sylvie.aiexperience", url: "https://www.instagram.com/sylvie.aiexperience", platform: "instagram", bio: "Երկար տարիներ աշխատել եմ բիզնեսների հետ՝ օգնելով դրանց տեսանելիության բարձրացմանն ու գրագետ ներկայացմանը։ Հիմա, AI Content Creation-ի գիտելիքները հաշվի առնելով, կարող եմ բիզնեսներին տրամադրել ամբողջական PR փաթեթներ՝ ներառելով տեսլականը պատրաստի վիզուալների վերածելու ծառայությունը։", bioEN: "Years of helping businesses grow their visibility and presentation in the local market. Now, with AI content creation skills, I offer full PR packages — including turning vision into ready-made visuals.", courses: ["academy"] },
+  { name: "Anna", handle: "aiwithann", url: "https://www.instagram.com/aiwithann", platform: "instagram", bio: "Քայլերս դեռ նոր են այս աշխարհում, բայց այն իսկապես ստեղծագործ մարդու համար գեղեցիկ աշխարհ է։ Ես փորձում եմ ստեղծել ոչ թե պարզապես գեղեցիկ վիզուալ, այլ կոնտենտ, որը գրավում է ուշադրություն և աշխատում է վաճառքի համար։", bioEN: "My steps in this world are new, but it's a beautiful world for a creative person. I try to create not just pretty visuals, but content that grabs attention and works for sales.", courses: ["academy", "academy-pro"] },
+  { name: "Mane Harutyunyan", handle: "maneharutyunian", url: "https://www.instagram.com/maneharutyunian", platform: "instagram", bio: "Լուսանկարիչ։ Overthinker։ Երբեմն՝ բողոքող 📸։ Եթե ուզում ես, որ քեզ նկատեն — ճիշտ տեղում ես։", bioEN: "Photographer. Overthinker. Occasionally complaining 📸. If you want to be seen — you're in the right place.", courses: ["academy"] },
+  { name: "Lia Terzyan", handle: "lia.ai.creator", url: "https://www.instagram.com/lia.ai.creator", platform: "instagram", bio: "Տարիների դիզայնի փորձը, կրեատիվությունը և ստեղծագործելու անկեղծ սերը ինձ օգնում են ստեղծել կոնտենտ, որն աչքի է ընկնում և հիշվում։", bioEN: "Years of design experience, creativity, and a genuine love for creating help me make content that stands out and stays memorable.", courses: ["creator", "academy-pro"] },
+  { name: "House of AI Vision", handle: "houseofaivision", url: "https://www.instagram.com/houseofaivision", platform: "instagram", bio: "Ես ստեղծում եմ գրավիչ ու բնական կոնտենտ, որը օգնում է բիզնեսներին աճել։ Ինձ ընտրում են, որովհետև իմ վիզուալները բերում են իրական արդյունք։", bioEN: "I create natural, captivating content that helps businesses grow. Clients choose me because my visuals deliver real results.", courses: ["academy"] },
+  { name: "Anna (Vahanovna)", handle: "annaai_creativestudio", url: "https://www.instagram.com/annaai_creativestudio", platform: "instagram", bio: "Ես Աննան եմ՝ AI կոնտենտ կրեատոր, ով ստեղծում է կոնտենտ, որը ոչ թե պարզապես նայում են, այլ զգում են ու գնելու են։ Կարողանում եմ աշխատել շատ սեղմ ժամկետներում, վիզուալը վերածում եմ գործիքի՝ ուշադրություն գրավելու, վստահություն կառուցելու և վաճառք ստեղծելու համար։", bioEN: "I'm Anna — an AI content creator who makes content that people don't just look at, but feel and buy from. Businesses choose me because I work to tight deadlines and turn visuals into tools for attention, trust, and sales.", courses: ["academy-pro"] },
+  { name: "Toma H.", handle: "softlight_lab", url: "https://www.instagram.com/softlight_lab", platform: "instagram", bio: "Ես ստեղծում եմ կոնտենտ, որը տարբերվող է և բրենդներին դարձնում է տեսանելի և տարբերակելի շուկայում։ Ինձ արժի ընտրել, որովհետև համադրում եմ էսթետիկան և բիզնես մտածողությունը։", bioEN: "I create content that stands out and makes brands visible and distinctive in the market. Choose me because I combine aesthetics with business thinking.", courses: ["academy"] },
+  { name: "Anna Veziryan", handle: "anna-veziryan", url: "https://www.linkedin.com/in/anna-veziryan", platform: "linkedin", telegram: "Anna_Veziryan", bio: "Որպես մարքեթինգի մասնագետ՝ ոչ միայն ստեղծում եմ կոնտենտ, այլև խորությամբ տիրապետում եմ բիզնես գործընթացների բոլոր նրբություններին և տարբեր շուկաների (Հայաստան, ԱՄՆ, Ֆրանսիա, Շվեյցարիա) առանձնահատկություններին։ Իմ ուժեղ կողմը զրոյից կրեատիվ գաղափարների գեներացումն է, որը վերածում եմ ռազմավարական լուծումների։", bioEN: "As a marketing specialist, I don't just create content — I deeply understand business processes and the specifics of different markets (Armenia, US, France, Switzerland, etc.). My strength is generating creative ideas from zero and turning them into strategic solutions that drive real business growth.", courses: ["academy-pro"] },
+  { name: "Luiza Gh.", handle: "neuralstructure", url: "https://www.instagram.com/neuralstructure", platform: "instagram", bio: "Ես կենտրոնանում եմ այնպիսի բովանդակություն ստեղծելու վրա, որը հաճելի է զգացողության համար, այլ ոչ թե պարզապես գեղեցիկ տեսք ունի։ Այդ հուզական կապն է, որը մարդկանց ստիպում է կանգ առնել, դիտել և հիշել ապրանքանիշը։", bioEN: "I focus on content that feels good to experience — not just looks pretty. That emotional connection is what makes people stop, watch, and remember the brand.", courses: ["academy"] },
+  { name: "Mari Simonyan", handle: "by_marsim", url: "https://www.instagram.com/by_marsim", platform: "instagram", bio: "Ես կարողանում եմ ստեղծել հոլովակներ, որոնք ուշադրություն են գրավում առաջին պահից։ Բացի AI կրեատոր լինելուց իմ առաջին մասնագիտությունը մարքեթինգն է, որի միջոցով ավելի լավ եմ հասկանում բրենդների ճիշտ մոտեցումը և սպառողների վարքագիծը։", bioEN: "I create reels that grab attention from the first second. Besides being an AI creator, my primary background is marketing — which helps me understand brand approach and consumer behavior.", courses: ["academy"] },
+  { name: "AinTes", handle: "aintes_arm", url: "https://www.instagram.com/aintes_arm", platform: "instagram", bio: "Որպես կոնտենտ կրեատոր՝ ստեղծում եմ ինչպես դասական պրոդուկտային, այնպես էլ ավելի բարդ, ոչ ստանդարտ վիդեոներ։ Առաջարկում եմ լուծումներ ընկերություններին, որոնք փնտրում են ճկուն մոտեցում և ցանկանում են վիզուալիզացնել իրենց գաղափարները՝ անկախ բարդության։", bioEN: "As a content creator, I make both classic product videos and complex, non-standard ones. I offer flexible solutions to companies that want to visualize their ideas — at any level of complexity.", courses: ["academy"] },
+  { name: "Elen Tsaturyan", handle: "ai_lab_armenia", url: "https://www.instagram.com/ai_lab_armenia", platform: "instagram", bio: "Շուրջ 10 տարի Instagram-ում տարբեր բրենդների էջերի առաջխաղացմամբ զբաղվելուց հետո հասկանում եմ, թե որ տեսակի կոնտենտն է ակտուալ տվյալ պահին։ Պունկտուալ եմ, պատասխանատու, սիրում եմ այն, ինչով զբաղվում եմ։", bioEN: "Around 10 years promoting brand pages on Instagram has taught me which content types resonate now — useful when working with clients. I'm punctual, responsible, and I love what I do.", courses: ["academy"] },
+  { name: "Karpine S.", handle: "silver.ai.agency", url: "https://www.instagram.com/silver.ai.agency", platform: "instagram", bio: "Քանի որ մոտենում եմ բրենդինգի և մարքեթինգի ռազմավարության տեսանկյունից, ստեղծված վիզուալը հստակ պետք է լուծի խնդիր, որ տվյալ պահին ունի բիզնեսը, բացի գրավիչ լինելը։", bioEN: "Approaching from a branding and marketing strategy perspective, the visual has to clearly solve a problem the business has right now — beyond just being attractive.", courses: ["creator", "academy"] },
+  { name: "Hayk (AI Booben)", handle: "aibooben", url: "https://www.instagram.com/aibooben", platform: "instagram", bio: "Ստեղծում ենք կրեատիվ կոնտենտ, որպեսզի վիրուսային ձևով տարածվի։ Ձգտում ենք ստանալ մաքսիմալ անթերի աշխատանք։ Գնային քաղաքականության մեջ շատ ճկուն ենք։", bioEN: "We create viral creative content. We aim for flawless work, and we're flexible on pricing.", courses: ["creator"] },
+  { name: "Ani Demurchian", handle: "ai_visuals_by_ani", url: "https://www.instagram.com/ai_visuals_by_ani", platform: "instagram", bio: "Աշխատանքներ կատարելիս կարևորում եմ ոչ միայն վերջնական արդյունքի գեղեցկությունը, այլ նաև այն, որ յուրաքանչյուր նախագիծ ունենա իր ինքնությունը, տրամադրությունը և հիշվող ազդեցությունը։", bioEN: "When working, I care not only about the visual beauty of the final result — but that every project has its own identity, mood, and memorable impact.", courses: ["academy-pro"] },
+  { name: "Mane Hovhannisyan", handle: "ai.withmane", url: "https://www.instagram.com/ai.withmane", platform: "instagram", bio: "Ունեմ մարքեթինգային ակադեմիական կրթություն, գրաֆիկ դիզայներ եմ, մարքեթոլոգ 4+ տարվա փորձով։ Ունեմ նաև UX/UI դիզայնի փորձ։ Դիզայն աչքս տեղն է, իսկ մարքեթինգը օգնում է, որ վիզուալները ստրատեգիկ լինեն։", bioEN: "I have an academic background in marketing, I'm a graphic designer and a marketer with 4+ years of experience. I also have UX/UI design experience. My design eye is set, and marketing helps me make visuals that are strategic.", courses: ["academy-pro"] },
+  { name: "Tatev Manukyan", handle: "tatev.visuals", url: "https://www.instagram.com/tatev.visuals", platform: "instagram", bio: "Ես գրաֆիկ դիզայներ եմ մասնագիտությամբ և ունեմ նաև նկարչական կրթություն, ինչի շնորհիվ մեծ ուշադրություն եմ դարձնում կոմպոզիցիային, գունային զգացողությանը և մանրուքներին։ Ստեղծում եմ մտածված ու aesthetic վիզուալներ, որոնք ոչ միայն գեղեցիկ են, այլ նաև փոխանցում են բրենդի տրամադրությունն ու գաղափարը։", bioEN: "I'm a graphic designer by profession with a fine arts background, so I pay close attention to composition, color, and detail. I create thoughtful, aesthetic visuals that are not only beautiful but also convey the brand's mood and idea.", courses: ["academy-pro", "creator"] },
+  { name: "Vard Khachatuni", handle: "your__ai__creator", url: "https://www.instagram.com/your__ai__creator", platform: "instagram", bio: "Ես ստեղծում եմ կոնտենտ, որը բնական կերպով գրավում է ուշադրությունը և հստակ արտացոլում բրենդի էությունը։ Առաջնային են ինձ համար դիմացինի ցանկությունները, և միշտ բաց եմ քննարկումների համար։", bioEN: "I create content that naturally captures attention and clearly reflects the brand's essence. The client's wishes come first for me, and I'm always open to discussion.", courses: ["academy"] },
+  { name: "Mariam UX", handle: "aidailydiary", url: "https://www.instagram.com/aidailydiary", platform: "instagram", bio: "Տրամադրում եմ համապատասխան ռեսուրսներ՝ լավագույն արդյունքի համար։ Ունեմ մեծ փորձ տարբեր բիզնեսների հետ համագործակցության շրջանակում, հասկանում եմ բիզնեսին ինչ առաջարկել, որպեսզի հասնեն նպատակներին։ Մեծ ներդրում եմ կատարում բուն գաղափարի մեջ, ինչը ավելի արժեքավոր եմ համարում։", bioEN: "I provide the right resources to deliver the best results. I have extensive experience collaborating with diverse businesses, so I know what to offer them to reach their goals. Beyond execution, I contribute substantively to the idea itself — which I value more.", courses: ["academy-pro", "creator"] },
+  { name: "Saten V.S.", handle: "aiwithsat", url: "https://www.instagram.com/aiwithsat", platform: "instagram", bio: "Ես Սաթենն եմ, երաժիշտ, mobile content creator և արդեն նաև AI content creator։ Ասում են, որ սիրունը տեսնելու հետաքրքիր հատկություն ունեմ, իսկ երաժշտական կրթությունն օգնում է տեսածս կամ ստեղծածս ավելի երաժշտական մատուցել։", bioEN: "I'm Saten — musician, mobile content creator, and now an AI content creator. They say I have an interesting eye for beauty, and my musical education helps me deliver what I see and create with more musicality.", courses: ["academy", "academy-pro"] },
+  { name: "Sweetlana Kh.", handle: "directed_fantasy", url: "https://www.instagram.com/directed_fantasy", platform: "instagram", bio: "Գրեթե 3 տարի աշխատում եմ որպես content creator՝ կենտրոնացած գաղափարներ գեներացնելու և ուրույն ոճով սցենարներ գրելու վրա միկրո/մակրո ինֆլյուենսերների, գովազդային ռիլերի և բրենդների համար։ Վերջին ամիսներին խորացել եմ creative producing-ի մեջ։", bioEN: "Nearly 3 years as a content creator — focused on generating ideas and writing scripts in my own style for dozens of micro and macro influencers, brand reels, and expert specialists. Lately I've gone deep into creative producing — combining all my knowledge into targeted, working AI solutions.", courses: ["academy-pro"] },
+  { name: "Ann Gyurjiyan", handle: "ann_mdbrd", url: "https://www.instagram.com/ann_mdbrd", platform: "instagram", bio: "Ես ստեղծում եմ կոնտենտ, որը էսթետիկ է և յուրահատուկ։ Սիրում եմ ստեղծել հետաքրքիր մտքեր՝ ոգեշնչվելով այն ամենից, ինչ շրջապատում է ինձ։ Իմ գործին մոտենում եմ շատ մեծ պատասխանատվությամբ՝ ուշադիր եմ ամեն մի դետալին։", bioEN: "I create content that's aesthetic and unique. I love generating interesting ideas inspired by everything around me. I approach my work with great responsibility — attentive to every detail. Precision and quality matter to me.", courses: ["creator", "academy-pro"] },
+  { name: "Nune Poghosyan", handle: "nuneaicreator", url: "https://www.instagram.com/nuneaicreator", platform: "instagram", bio: "Ես IT ոլորտում աշխատում եմ ավելի քան 14 տարի և ամեն օր օգտագործում եմ AI իմ աշխատանքում, հասկանալով թե ինչպես է այն իրականում աշխատում։ Բիզնեսները կարող են ընտրել ինձ, որովհետև համադրում եմ տեխնիկական փորձը և ստեղծարար մոտեցումը՝ ստեղծելով արդյունավետ ու ժամանակակից կոնտենտ։", bioEN: "I've worked in IT for 14+ years and use AI every day in my work, understanding how it actually works. Businesses can choose me because I combine technical expertise with a creative approach — creating effective, modern content.", courses: ["academy-pro"] },
+  { name: "Ani Azatyan (Creator)", handle: "aiwithani_creator", url: "https://www.instagram.com/aiwithani_creator", platform: "instagram", bio: "Creative Director (AI)։ Cinematic վիզուալներ ու concept գովազդներ։ Emotion > Content։ Ստեղծում եմ ոչ միայն գեղեցիկ, այլ նպատակային կոնտենտ՝ որը գրավում է ուշադրություն և օգնում բրենդին ավելի ուժեղ ներկայանալ։", bioEN: "Creative Director (AI). Cinematic visuals and concept ads. Emotion > Content. I create not just beautiful, but purpose-driven content that grabs attention and helps brands stand stronger.", courses: ["creator"] },
+  { name: "Armine M.", handle: "armimarti_yan", url: "https://www.instagram.com/armimarti_yan", platform: "instagram", bio: "Reelmaker · SMM · AI Content Creator։ Օգնում եմ բրենդներին առանձնանալ կոնտենտով, որը գրավում է ուշադրությունը։", bioEN: "Reelmaker · SMM · AI Content Creator. I help brands stand out with content that grabs attention.", courses: ["academy", "academy-pro"] },
+  { name: "LilArt Retouch", handle: "lilart_ai", url: "https://www.instagram.com/lilart_ai", platform: "instagram", bio: "Ես ստեղծում եմ մաքուր վիզուալներ։ Իմ նպատակն է ստեղծել կոնտենտ, որը ոչ միայն գեղեցիկ է, այլ նաև բարձրացնում է բրենդի ընկալումը։", bioEN: "I create clean visuals. My goal is content that's not only beautiful but also elevates brand perception.", courses: ["creator"] },
+  { name: "Scripted AI", handle: "scripted._ai", url: "https://www.instagram.com/scripted._ai", platform: "instagram", bio: "Ես կոնտենտ կրեատոր եմ, ինչպես նաև՝ մասնագիտությամբ սցենարիստ և կինոռեժիսոր, ինչի շնորհիվ ստեղծում եմ կինեմատոգրաֆիկ բովանդակություն։ Իմ նպատակը պատմություններ պատմելն է, որոնք ոչ միայն գրավում են, այլև թողնում են հետք։", bioEN: "I'm a content creator and a professional scriptwriter and film director — so I create cinematic content. My goal is to tell stories that not only captivate but leave a mark.", courses: ["academy"] },
+  { name: "Gohar", handle: "gohar_creates_with_ai", url: "https://www.instagram.com/gohar_creates_with_ai", platform: "instagram", bio: "Սիրում եմ ստեղծագործել, ոգեշնչվել արվեստից, պատմությունից և գաղափարներ վերածել վիզուալ պատմությունների։ Իմ ստեղծած կոնտենտը տարբերվող է, որովհետև համադրում եմ էսթետիկան և բիզնես մտածողությունը՝ օգնելով բրենդներին լինել տեսանելի, հիշվող և առանձնանալ շուկայում։", bioEN: "I love creating, drawing inspiration from art and history, generating ideas and turning them into visual stories. My content stands out because I combine aesthetics with business thinking — helping brands become visible, memorable, and distinctive in the market.", courses: ["academy", "academy-pro", "creator"] },
+  { name: "Victoria Y.", handle: "victoria.yvn", url: "https://www.instagram.com/victoria.yvn", platform: "instagram", bio: "Առաջին հայ AI բլոգերը։ Սովորեցնում եմ ճիշտ ներդնել AI-ը ձեր բիզնեսում։ Ֆիլտրված կոնտենտ, տարիների փորձ մարքեթինգում։", bioEN: "The first Armenian AI blogger. I teach businesses how to integrate AI correctly. Filtered content, years of marketing experience.", courses: ["academy", "academy-pro"] },
+  { name: "Milena Badalyan", handle: "badalian.ai", url: "https://www.instagram.com/badalian.ai", platform: "instagram", bio: "Ես ստեղծում եմ ոչ միայն վիզուալ գեղեցիկ կոնտենտ, այլ պատմություն, որը կապ է ստեղծում բրենդի ու մարդկանց միջև։ Ինձ ընտրելով՝ բիզնեսները ստանում են կրեատիվ մոտեցում, ուշադրություն դետալներին և արդյունք, որը առանձնանում է ու հիշվում։", bioEN: "I create not just visually beautiful content, but story that connects brands with people. Choosing me means a creative approach, attention to detail, and results that stand out and stay memorable.", courses: ["academy-pro"] },
+  { name: "Ani Darbinyan", handle: "ai.creator.ani", url: "https://www.instagram.com/ai.creator.ani", platform: "instagram", bio: "Ստեղծում եմ AI-ով ձևավորված վիզուալ գաղափարներ, որոնք օգնում են բիզնեսներին ներկայանալ ավելի ժամանակակից, տարբերվող և հիշվող կերպով։ Ինձ կարող են ընտրել այն բիզնեսները, որոնք ուզում են ոչ միայն գեղեցիկ կոնտենտ, այլ նաև բրենդին համապատասխան հստակ mood, ոճ և ստեղծարար ուղղություն։", bioEN: "I create AI-driven visual ideas that help businesses look more modern, distinctive, and memorable. Choose me if you want not just beautiful content, but a clear mood, style, and creative direction that matches your brand.", courses: ["academy"] },
+  { name: "Yourfriday AI", handle: "yourfridayai", url: "https://www.instagram.com/yourfridayai", platform: "instagram", bio: "Full-service creative studio Երևանում 🇦🇲 և Լոս Անջելեսում 🇺🇸։ Creative Direction, Production, Strategy, Content, Graphics & Product Design։", bioEN: "Full-service creative studio in Yerevan 🇦🇲 and Los Angeles 🇺🇸. Creative Direction, Production, Strategy, Content, Graphics & Product Design.", courses: ["creator"] },
+  { name: "Gayane Manoukian", handle: "sssaiart.226", url: "https://www.instagram.com/sssaiart.226", platform: "instagram", bio: "AI art & video։ Իմ իրականությունը՝ AI-ով։ Մարդկային հայացքը թվային կտավի վրա։ Կոնտենտ կրեատոր՝ իմ աչքերով, պատմություններ՝ առանց բառերի։", bioEN: "AI art & video. My reality, AI-powered. The human lens on a digital canvas. A content creator through my eyes — stories without words.", courses: ["academy-pro"] },
+  { name: "Goga", handle: "dg.goga", url: "https://www.instagram.com/dg.goga", platform: "instagram", bio: "Ես կոնտենտ կրեատոր եմ, ով արագ է կողմնորոշվում, աշխատում է սեղմ ժամկետներում և միշտ պահում է բարձր որակի ստանդարտ։ Ստեղծում եմ վիզուալներ, որոնք ոչ միայն տեսողական հաճույք են տալիս, այլ նաև արդյունավետ գործիք են վաճառքի համար։", bioEN: "I'm a content creator who orients quickly, works to tight deadlines, and always holds high quality standards. I create visuals that are not only visually pleasing but also an effective sales tool.", courses: ["academy"] },
+  { name: "Sarah", handle: "sarah.ai.studio", url: "https://www.instagram.com/sarah.ai.studio", platform: "instagram", bio: "AI Creative Director։ Գործիքները փոխվում են, ձեռագիրը՝ ոչ։ AI ads որ վաճառում են՝ իմ ձեռագրով։ Reels · UGC · Music Videos · Visuals · Animated ads։", bioEN: "AI Creative Director. The tools change, the signature doesn't. AI ads that sell — in my signature style. Reels · UGC · Music Videos · Visuals · Animated ads.", courses: ["academy-pro"] },
+  { name: "Heline", handle: "aiwithhelin", url: "https://www.instagram.com/aiwithhelin", platform: "instagram", bio: "Ես graphic designer և AI կոնտենտ կրեատոր եմ, ստեղծում եմ մաքուր, ոճային և բիզնեսին համապատասխան վիզուալներ՝ photo, video և դիզայն ձևաչափերով։ Ինձ ընտրում են, որովհետև իմ կոնտենտը ոչ միայն գեղեցիկ է, այլ նաև գրավում է ուշադրություն և վերածվում է իրական վաճառքի։", bioEN: "I'm a graphic designer and AI content creator. I create clean, stylish, business-aligned visuals — photo, video, and design formats. Clients choose me because my content isn't just beautiful — it grabs attention and converts to real sales.", courses: ["academy-pro"] },
+  { name: "Narek", handle: "narek.ai.lab", url: "https://www.instagram.com/narek.ai.lab", platform: "instagram", bio: "Արդեն 4 տարի մարքեթինգում և իրական բրենդների հետ աշխատելը սովորեցրեց ինձ, թե ինչ կոնտենտ է մարդկանց շարժում։ AI-ը թույլ է տալիս դա անել ավելի արագ ու մեծ մասշտաբով։ Կարող եմ գնալ համարձակ գաղափարների, ունեմ ստեղծագործական միտք, տալիս եմ անսպասելի լուծումներ (շնորհիվ ինժեներական կրթության), բայց միշտ հիշում եմ, որ արդյունքում դա պետք է աշխատի։", bioEN: "Four years in marketing and working with real brands taught me what content actually moves people. AI lets me do that faster, more interestingly, and at a scale that wasn't possible in practice before. I can go bold with ideas, offer unexpected solutions (thanks to my engineering background) — but I always remember the result has to work.", courses: ["academy"] },
+  { name: "Greta Hovsepyan", handle: "ai_with_g", url: "https://www.instagram.com/ai_with_g", platform: "instagram", bio: "Ես ստեղծում եմ կոնտենտ նրբաճաշակ էսթետիկայով, որտեղ յուրաքանչյուր դետալ մտածված է՝ փոխանցելու բրենդի ոճն ու տրամադրությունը։", bioEN: "I create content with refined aesthetics, where every detail is intentional — to convey the brand's style and mood.", courses: ["academy"] },
+  { name: "Mariam Ailian", handle: "ai_by_human", url: "https://www.instagram.com/ai_by_human", platform: "instagram", bio: "Ես Մարիամն եմ, բժիշկ։ Բժշկական կոնտենտ, վիդեոներ, որոնք իրական են ու պահանջված, և՛ բժշկի, և՛ պացիենտի կողմից, կարող է ստեղծել մարդը, ով ամեն օր գտնվում է այդ միջավայրում։ AI կոնտենտ կրեատոր բժիշկ դեռ չկա 😁։ Որպես մարքեթինգի հայտնի զոհ և մարդկանց հոգեբանություն իմացող մարդ՝ գիտեմ ինչն է գրավում մարդկանց պրոդուկտի մեջ։", bioEN: "I'm Mariam, a doctor. Medical content and videos that are real and needed — from both the doctor's and the patient's side — can only be created by someone who lives in that environment every day. There's no AI content creator doctor yet 😁. As a famous victim of marketing and someone who understands human psychology, I know what attracts people to a product.", courses: ["academy"] },
+  { name: "Karine GH.", handle: "karineeee_ai", url: "https://www.instagram.com/karineeee_ai", platform: "instagram", bio: "Ես ստեղծում եմ ազդեցիկ վիզուալ կոնտենտ այն բրենդների համար, որոնք ցանկանում են առանձնանալ։ Ունեմ ավելի քան 6 տարվա փորձ մարքեթինգում և խորացված գիտելիքներ առաջադեմ AI ստեղծագործական գործիքների մեջ։ Համադրում եմ մարքեթինգային մտածողությունն ու AI գործիքները՝ ստեղծելով գեղեցիկ, բրենդին համապատասխանող և արդյունք բերող կոնտենտ։", bioEN: "I create impactful visual content for brands that want to stand out. I have 6+ years in marketing and deep knowledge of advanced AI creative tools. I combine marketing thinking with AI to produce beautiful, on-brand, results-driving content.", courses: ["academy"] },
+  { name: "Eva Babayan", handle: "ja_vie_co", url: "https://www.instagram.com/ja_vie_co", platform: "instagram", bio: "Ստեղծում ենք կոնտենտ և փորձառություններ։ AI • Cinematic • Events։ Նաև event host և voice artist։ Համադրում եմ մարքեթինգային փորձս ու AI հնարավորությունները՝ ստեղծելով ավելի ուժեղ, արագ ու արդյունավետ գովազդ։", bioEN: "We create content and experiences. AI • Cinematic • Events. Also event host and voice artist. I combine my marketing experience with AI to deliver stronger, faster, more effective content and ads.", courses: ["academy", "academy-pro"] },
 ];
 
 const courseLabels = {
@@ -581,7 +709,6 @@ function renderCard(a){
   const platformIcon = ICONS[a.platform] || ICONS.external;
   const services = a.courses.map((c, i) => `<span class="${i === 0 ? 'service' : 'service alt'}">${courseLabels[c] || c}</span>`).join("");
 
-  // Avatars pre-fetched into ./avatars/{handle}.jpg (run fetch-avatars.sh to refresh)
   let photoUrl = "";
   if(a.platform === "instagram") photoUrl = `./avatars/${a.handle}.jpg`;
 
@@ -590,14 +717,17 @@ function renderCard(a){
     : "";
 
   const secondaryBtn = a.telegram
-    ? `<a class="cta-secondary" href="https://t.me/${a.telegram}" target="_blank" rel="noopener" title="Message on Telegram" aria-label="Message on Telegram">${ICONS.telegram}</a>`
-    : `<a class="cta-secondary" href="${a.url}" target="_blank" rel="noopener" title="Open profile" aria-label="Open profile">${ICONS.external}</a>`;
+    ? `<a class="cta-secondary" href="https://t.me/${a.telegram}" target="_blank" rel="noopener" title="${t('card_telegram_title')}" aria-label="${t('card_telegram_title')}">${ICONS.telegram}</a>`
+    : `<a class="cta-secondary" href="${a.url}" target="_blank" rel="noopener" title="${t('card_open_title')}" aria-label="${t('card_open_title')}">${ICONS.external}</a>`;
 
   const handleLabel = (a.platform === "instagram" || a.platform === "telegram") ? `@${a.handle}` : a.handle;
 
+  // Bio: use English when EN mode and a translation exists; otherwise fall back to original (Armenian) bio
+  const bio = (lang === "en" && a.bioEN) ? a.bioEN : a.bio;
+
   return `
     <article class="card">
-      <span class="verified"><span class="check">✓</span>Approved</span>
+      <span class="verified"><span class="check">✓</span>${t('card_approved')}</span>
       <div class="avatar ${photoUrl ? '' : 'no-photo'}">
         ${photoTag}
         <span class="initials" aria-hidden="true">${initials}</span>
@@ -605,10 +735,10 @@ function renderCard(a){
       </div>
       <h3 class="name">${a.name}</h3>
       <span class="handle-pill">${platformIcon}${handleLabel}</span>
-      <p class="bio" title="${a.bio.replace(/"/g, '&quot;')}">${a.bio}</p>
+      <p class="bio" title="${bio.replace(/"/g, '&quot;')}">${bio}</p>
       <div class="services">${services}</div>
       <div class="cta-row">
-        <a class="cta" href="${a.url}" target="_blank" rel="noopener">${ICONS.arrow} Տեսնել պորտֆոլիոն</a>
+        <a class="cta" href="${a.url}" target="_blank" rel="noopener">${ICONS.arrow} ${t('card_cta')}</a>
         ${secondaryBtn}
       </div>
     </article>
@@ -618,13 +748,13 @@ function renderCard(a){
 function render(){
   const filtered = activeFilter === "all" ? alumni : alumni.filter(a => a.courses.includes(activeFilter));
   if(filtered.length === 0){
-    grid.innerHTML = '<div class="empty">Չկան համապատասխան շրջանավարտներ։</div>';
+    grid.innerHTML = `<div class="empty">${t('empty')}</div>`;
   } else {
     grid.innerHTML = filtered.map(renderCard).join("") + `
       <div class="join-card">
-        <h3>Ուզու՞մ եք լինել այս էջում։</h3>
-        <p>HUVA Academy-ի հաջորդ խումբը մայիսի 20-ին է մեկնարկում։ Ավարտեք կուրսը, պատրաստեք ձեր պորտֆոլիոն, և կհայտնվեք այստեղ՝ բիզնեսների համար։</p>
-        <a class="cta" href="https://huva.io">Միանալ հաջորդ խմբին →</a>
+        <h3>${t('join_title')}</h3>
+        <p>${t('join_text')}</p>
+        <a class="cta" href="https://huva.io">${t('join_cta')}</a>
       </div>
     `;
   }
@@ -644,6 +774,22 @@ document.getElementById("chips").addEventListener("click", e => {
   render();
 });
 
+/* Language switcher — toggle dropdown, pick a language */
+const navLang = document.getElementById("navLang");
+navLang.addEventListener("click", e => {
+  const opt = e.target.closest(".lang-option");
+  if (opt) {
+    setLang(opt.dataset.lang);
+    navLang.classList.remove("open");
+    return;
+  }
+  navLang.classList.toggle("open");
+});
+document.addEventListener("click", e => {
+  if (!navLang.contains(e.target)) navLang.classList.remove("open");
+});
+
+applyLang();
 render();
 </script>
 </body>

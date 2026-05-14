@@ -162,22 +162,29 @@
     box-shadow: 0 8px 16px rgba(138,129,141,.13);
     overflow: hidden;
   }
-  .stat { padding: 28px 18px; text-align: center; border-right: 1px solid #eee; }
+  .stats.stats-3 { grid-template-columns: repeat(3, 1fr); }
+  .stat { padding: 32px 20px; text-align: center; border-right: 1px solid #eee; }
   .stat:last-child { border-right: 0; }
   .stat .num {
     font-family: var(--font); font-stretch: expanded; font-weight: 800;
-    font-size: clamp(28px, 3.5vw, 44px); line-height: 1; letter-spacing: -1px;
+    font-size: clamp(36px, 4.5vw, 56px); line-height: 1; letter-spacing: -1.5px;
     color: var(--blue);
+    display: inline-flex; align-items: baseline; gap: 4px;
+  }
+  .stat .num-suffix {
+    font-size: 0.65em; line-height: 1;
+    color: #f5b400; -webkit-text-fill-color: #f5b400;
+    letter-spacing: 0; transform: translateY(-0.08em);
   }
   .stat .label {
-    margin-top: 8px; font-size: 12px; color: #555;
+    margin-top: 10px; font-size: 12px; color: #555;
     letter-spacing: 1px; text-transform: uppercase; font-weight: 600;
     font-family: var(--font); font-stretch: expanded;
   }
   @media (max-width: 760px) {
-    .stats { grid-template-columns: repeat(2,1fr); }
-    .stat:nth-child(2n) { border-right: 0; }
-    .stat:nth-child(-n+2) { border-bottom: 1px solid #eee; }
+    .stats, .stats.stats-3 { grid-template-columns: 1fr; }
+    .stat { border-right: 0; border-bottom: 1px solid #eee; }
+    .stat:last-child { border-bottom: 0; }
   }
 
   /* Filters */
@@ -486,11 +493,10 @@
   <p class="sub" data-i18n="hero_sub">Հայ պրոֆեսիոնալներ, ովքեր ավարտել են HUVA Academy-ն և ամեն օր ստեղծում, ներկայացնում ու վաճառում են AI-ով։ Աշխատեցրեք, հետևեք, սովորեք նրանցից։</p>
 </section>
 
-<div class="stats">
-  <div class="stat"><div class="num" data-stat="total">—</div><div class="label" data-i18n="stat_graduates">Շրջանավարտներ</div></div>
-  <div class="stat"><div class="num" data-stat="pro">—</div><div class="label">Academy Pro</div></div>
-  <div class="stat"><div class="num" data-stat="creator">—</div><div class="label">AI Creator</div></div>
-  <div class="stat"><div class="num">100%</div><div class="label">AI-native</div></div>
+<div class="stats stats-3">
+  <div class="stat"><div class="num">1,100+</div><div class="label" data-i18n="stat_students">Ուսանողներ</div></div>
+  <div class="stat"><div class="num">4.9<span class="num-suffix">★</span></div><div class="label" data-i18n="stat_rating">Միջին գնահատական</div></div>
+  <div class="stat"><div class="num">100%</div><div class="label" data-i18n="stat_native">AI-native</div></div>
 </div>
 
 <div class="filters">
@@ -547,6 +553,9 @@ const T = {
     hero_title_punct: "։",
     hero_sub: "AI Creator-ներ, ովքեր ավարտել են HUVA Academy-ն և ամեն օր ստեղծում, ներկայացնում ու վաճառում են AI-ով։ Պատվիրեք կոնտենտ, աշխատեք իրենց հետ, հետևեք նրանց ուղուն։",
     stat_graduates: "Շրջանավարտներ",
+    stat_students: "Ուսանողներ (ընդհանուր)",
+    stat_rating: "Միջին գնահատական",
+    stat_native: "AI-native",
     filter_alumni: "Շրջանավարտներ",
     filter_all: "Բոլորը",
     card_cta: "Տեսնել պորտֆոլիոն",
@@ -577,6 +586,9 @@ const T = {
     hero_title_punct: ".",
     hero_sub: "AI Creators who finished HUVA Academy and create, present, and sell with AI every day. Order content, work with them, follow their journey.",
     stat_graduates: "Graduates",
+    stat_students: "Students (all-time)",
+    stat_rating: "Avg. review score",
+    stat_native: "AI-native",
     filter_alumni: "The Alumni",
     filter_all: "All",
     card_cta: "View Portfolio",
@@ -761,9 +773,8 @@ function render(){
   document.querySelector('[data-stat="visible"]').textContent = `· ${filtered.length}`;
 }
 
-document.querySelector('[data-stat="total"]').textContent = alumni.length;
-document.querySelector('[data-stat="pro"]').textContent = alumni.filter(a => a.courses.includes("academy-pro")).length;
-document.querySelector('[data-stat="creator"]').textContent = alumni.filter(a => a.courses.includes("creator")).length;
+// Stats strip uses fixed numbers (1,100+ all-time, 4.9, 100% AI-native).
+// The filter heading still shows the visible count of cards.
 
 document.getElementById("chips").addEventListener("click", e => {
   const btn = e.target.closest(".chip");

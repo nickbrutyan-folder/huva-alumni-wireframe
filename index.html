@@ -77,6 +77,7 @@
     background: var(--blue); color: #fff;
     height: 48px; padding: 10px 24px; border-radius: 24px;
     font-family: var(--font); font-weight: 500; font-size: 16px;
+    display: inline-flex; align-items: center; justify-content: center;
     white-space: nowrap; flex-shrink: 0;
     transition: background-color 200ms ease-out, transform 200ms ease-out;
   }
@@ -120,6 +121,67 @@
   }
   .nav-hamburger span { display: block; width: 28px; height: 3px; background: #1e1e1e; border-radius: 2px; }
 
+  .mobile-menu {
+    position: fixed; inset: 0; z-index: 140;
+    background: rgba(10,10,10,.48);
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity .2s ease, visibility .2s ease;
+  }
+  .mobile-menu.open { opacity: 1; visibility: visible; pointer-events: auto; }
+  .mobile-menu-panel {
+    position: absolute; top: 12px; left: 16px; right: 16px;
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 24px; padding: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,.18);
+    transform: translateY(-10px); transition: transform .2s ease;
+  }
+  .mobile-menu.open .mobile-menu-panel { transform: translateY(0); }
+  .mobile-menu-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+  .mobile-menu-title {
+    font-family: var(--font); font-stretch: expanded;
+    font-weight: 800; font-size: 15px; letter-spacing: .7px;
+    text-transform: uppercase; color: var(--black);
+  }
+  .mobile-menu-close {
+    position: relative;
+    width: 40px; height: 40px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(0,0,0,.12); background: #fff;
+  }
+  .mobile-menu-close span { position: absolute; width: 18px; height: 2px; border-radius: 2px; background: var(--black); }
+  .mobile-menu-close span:first-child { transform: rotate(45deg); }
+  .mobile-menu-close span:last-child { transform: rotate(-45deg); }
+  .mobile-menu-links { list-style: none; display: grid; gap: 6px; }
+  .mobile-menu-link {
+    display: flex; align-items: center; justify-content: space-between;
+    min-height: 46px; padding: 12px 14px; border-radius: 14px;
+    font-family: var(--font); font-stretch: expanded;
+    font-weight: 700; font-size: 14px; letter-spacing: .7px;
+    text-transform: uppercase; color: #1e1e1e;
+  }
+  .mobile-menu-link:hover, .mobile-menu-link.active {
+    background: rgba(18,0,255,.08); color: var(--blue);
+  }
+  .mobile-menu-join {
+    margin-top: 12px; min-height: 48px; border-radius: 24px;
+    background: var(--blue); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font); font-weight: 700; font-size: 14px;
+    letter-spacing: .7px; text-transform: uppercase;
+  }
+  .mobile-menu-lang {
+    margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(0,0,0,.08);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  }
+  .mobile-lang-option {
+    min-height: 42px; border-radius: 14px; padding: 10px 12px;
+    background: rgba(0,0,0,.04); color: #1e1e1e;
+    font-family: var(--font); font-weight: 700; font-size: 13px;
+  }
+  .mobile-lang-option.active { background: var(--black); color: #fff; }
+
   @media (max-width: 1024px) {
     .nav-wrap { padding: 12px 16px; }
     .nav { grid-template-columns: auto 1fr auto; padding: 8px 12px; }
@@ -147,12 +209,28 @@
   @keyframes pulse { 0%,100% { box-shadow: 0 0 0 4px rgba(18,0,255,.18); } 50% { box-shadow: 0 0 0 8px rgba(18,0,255,.06); } }
   h1 {
     font-family: var(--font); font-stretch: expanded;
-    font-size: clamp(40px, 7vw, 80px); font-weight: 800;
-    letter-spacing: -2px; line-height: 1.05;
+    font-size: 80px; font-weight: 800;
+    letter-spacing: 0; line-height: 1.05;
     margin: 24px 0 18px; color: var(--black);
   }
-  h1 .accent { color: var(--blue); }
-  .sub { font-size: clamp(16px, 2vw, 19px); max-width: 680px; margin: 0 auto; color: #3a3a3a; line-height: 1.55; }
+  h1 .accent-wrap { color: var(--blue); white-space: nowrap; }
+  h1 .accent { color: inherit; }
+  .sub { font-size: 19px; max-width: 680px; margin: 0 auto; color: #3a3a3a; line-height: 1.55; }
+  @media (max-width: 1024px) {
+    h1 { font-size: 64px; }
+  }
+  @media (max-width: 640px) {
+    .hero { padding: 120px 24px 44px; }
+    h1 { font-size: 38px; line-height: 1.08; }
+    .sub { font-size: 16px; }
+  }
+  @media (max-width: 420px) {
+    h1 { font-size: 34px; }
+    .hero { padding-left: 20px; padding-right: 20px; }
+  }
+  @media (max-width: 360px) {
+    h1 { font-size: 27px; }
+  }
 
   /* Stats */
   .stats {
@@ -167,7 +245,7 @@
   .stat:last-child { border-right: 0; }
   .stat .num {
     font-family: var(--font); font-stretch: expanded; font-weight: 800;
-    font-size: clamp(36px, 4.5vw, 56px); line-height: 1; letter-spacing: -1.5px;
+    font-size: 56px; line-height: 1; letter-spacing: 0;
     color: var(--blue);
     display: inline-flex; align-items: baseline; gap: 4px;
   }
@@ -185,19 +263,25 @@
     .stats, .stats.stats-3 { grid-template-columns: 1fr; }
     .stat { border-right: 0; border-bottom: 1px solid #eee; }
     .stat:last-child { border-bottom: 0; }
+    .stat .num { font-size: 42px; }
   }
 
   /* Filters */
   .filters {
     max-width: 1320px; margin: 64px auto 24px; padding: 0 32px;
     display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+    scroll-margin-top: 120px;
   }
   .filters h2 {
     font-family: var(--font); font-stretch: expanded;
-    font-weight: 800; font-size: clamp(28px, 4vw, 40px);
-    letter-spacing: -1px; margin: 0;
+    font-weight: 800; font-size: 40px;
+    letter-spacing: 0; margin: 0;
   }
   .filters h2 .count { color: var(--blue); font-size: 0.6em; margin-left: 8px; }
+  @media (max-width: 640px) {
+    .filters { margin-top: 48px; padding: 0 20px; }
+    .filters h2 { font-size: 32px; }
+  }
   .chips { display: flex; gap: 8px; flex-wrap: wrap; }
   .chip {
     padding: 10px 18px; border-radius: 99px; background: #fff;
@@ -245,7 +329,7 @@
     background: linear-gradient(135deg, var(--blue) 0%, #4a3aff 100%);
     color: #fff; display: none; align-items: center; justify-content: center;
     font-family: var(--font); font-stretch: expanded;
-    font-weight: 800; font-size: 32px; letter-spacing: -1px;
+    font-weight: 800; font-size: 32px; letter-spacing: 0;
     box-shadow: 0 3px 6px rgba(0,0,0,.2);
   }
   .avatar.no-photo .photo { display: none; }
@@ -265,7 +349,7 @@
 
   .name {
     font-family: var(--font); font-stretch: expanded;
-    font-weight: 700; font-size: 20px; letter-spacing: -0.4px;
+    font-weight: 700; font-size: 20px; letter-spacing: 0;
     line-height: 1.15; margin: 6px 0 0;
   }
   .handle-pill {
@@ -351,8 +435,8 @@
   }
   .join-card h3 {
     font-family: var(--font); font-stretch: expanded;
-    font-weight: 800; font-size: clamp(28px, 4vw, 44px);
-    letter-spacing: -1px; margin: 0 0 12px; position: relative; z-index: 1;
+    font-weight: 800; font-size: 44px;
+    letter-spacing: 0; margin: 0 0 12px; position: relative; z-index: 1;
   }
   .join-card p { font-size: 17px; opacity: 0.85; max-width: 520px; margin: 0 auto 28px; position: relative; z-index: 1; }
   .join-card .cta {
@@ -360,6 +444,11 @@
     position: relative; z-index: 1; background: var(--yellow-soft); color: var(--black);
   }
   .join-card .cta:hover { background: #fff; }
+  @media (max-width: 640px) {
+    .join-card { padding: 40px 24px; }
+    .join-card h3 { font-size: 32px; }
+    .join-card p { font-size: 15px; }
+  }
 
   .empty { grid-column: 1 / -1; text-align: center; padding: 64px 32px; color: #666; font-size: 15px; }
 
@@ -453,11 +542,11 @@
       <li><a href="https://huva.io/#instructors" data-i18n="nav_instructors">Դասախոսներ</a></li>
       <li><a href="https://huva.io/#course-plan" data-i18n="nav_program">Ծրագիր</a></li>
       <li><a href="https://huva.io/#how-works" data-i18n="nav_format">Ֆորմատ</a></li>
-      <li><a href="#" class="active" data-i18n="nav_alumni">Շրջանավարտներ</a></li>
+      <li><a href="#alumni" class="active" data-i18n="nav_alumni">Շրջանավարտներ</a></li>
       <li><a href="https://huva.io/#faq" data-i18n="nav_faq">FAQ</a></li>
     </ul>
     <div class="nav-actions">
-      <button class="nav-join" data-i18n="nav_join">ՄԻԱՑԻՐ ՀԻՄԱ</button>
+      <a class="nav-join" href="https://huva.io/#pricing" data-i18n="nav_join">ՄԻԱՑԻՐ ՀԻՄԱ</a>
       <div class="nav-lang" id="navLang">
         <span class="nav-lang-flag" id="navLangFlag" aria-hidden="true">
           <svg viewBox="0 0 16 16"><rect width="16" height="5.33" y="0" fill="#d90012"/><rect width="16" height="5.34" y="5.33" fill="#0033a0"/><rect width="16" height="5.33" y="10.67" fill="#f2a800"/></svg>
@@ -481,15 +570,36 @@
           </button>
         </div>
       </div>
-      <button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Menu" aria-controls="mobileMenu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </nav>
+</div>
+
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true">
+  <div class="mobile-menu-panel">
+    <div class="mobile-menu-top">
+      <span class="mobile-menu-title">HUVA Academy</span>
+      <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu"><span></span><span></span></button>
+    </div>
+    <ul class="mobile-menu-links">
+      <li><a href="https://huva.io/#instructors" class="mobile-menu-link" data-i18n="nav_instructors">Դասախոսներ</a></li>
+      <li><a href="https://huva.io/#course-plan" class="mobile-menu-link" data-i18n="nav_program">Ծրագիր</a></li>
+      <li><a href="https://huva.io/#how-works" class="mobile-menu-link" data-i18n="nav_format">Ֆորմատ</a></li>
+      <li><a href="#alumni" class="mobile-menu-link active" data-i18n="nav_alumni">Շրջանավարտներ</a></li>
+      <li><a href="https://huva.io/#faq" class="mobile-menu-link" data-i18n="nav_faq">FAQ</a></li>
+    </ul>
+    <a class="mobile-menu-join" href="https://huva.io/#pricing" data-i18n="nav_join">ՄԻԱՑԻՐ ՀԻՄԱ</a>
+    <div class="mobile-menu-lang">
+      <button class="mobile-lang-option active" data-mobile-lang="hy">HY</button>
+      <button class="mobile-lang-option" data-mobile-lang="en">EN</button>
+    </div>
+  </div>
 </div>
 
 <!-- ────── HERO (alumni-specific) ────── -->
 <section class="hero">
   <span class="eyebrow"><span class="pulse"></span><span data-i18n="hero_eyebrow">HUVA Academy · Շրջանավարտներ</span></span>
-  <h1><span data-i18n="hero_title_pre">Մեր</span> <span class="accent" data-i18n="hero_title_accent">շրջանավարտները</span><span data-i18n="hero_title_punct">։</span></h1>
+  <h1><span data-i18n="hero_title_pre">Մեր</span> <span class="accent-wrap"><span class="accent" data-i18n="hero_title_accent">շրջանավարտները</span><span data-i18n="hero_title_punct">։</span></span></h1>
   <p class="sub" data-i18n="hero_sub">Հայ պրոֆեսիոնալներ, ովքեր ավարտել են HUVA Academy-ն և ամեն օր ստեղծում, ներկայացնում ու վաճառում են AI-ով։ Աշխատեցրեք, հետևեք, սովորեք նրանցից։</p>
 </section>
 
@@ -499,7 +609,7 @@
   <div class="stat"><div class="num">100%</div><div class="label" data-i18n="stat_native">AI-native</div></div>
 </div>
 
-<div class="filters">
+<div class="filters" id="alumni">
   <h2><span data-i18n="filter_alumni">Շրջանավարտներ</span> <span class="count" data-stat="visible"></span></h2>
   <div class="chips" id="chips">
     <button class="chip active" data-filter="all" data-i18n="filter_all">Բոլորը</button>
@@ -526,15 +636,15 @@
   </div>
   <p class="footer-copyright" data-i18n="footer_copyright">© 2026 HUVA Academy. Think human. Build AI.</p>
   <div class="footer-socials">
-    <a href="https://www.linkedin.com/company/huva-academy" target="_blank" rel="noopener" class="footer-social-link" data-i18n="footer_linkedin">LINKEDIN</a>
-    <a href="https://www.instagram.com/aiwithani" target="_blank" rel="noopener" class="footer-social-link" data-i18n="footer_instagram">INSTAGRAM</a>
+    <a href="https://www.linkedin.com/in/animkrtchyan1/" target="_blank" rel="noopener noreferrer" class="footer-social-link" data-i18n="footer_linkedin">LINKEDIN</a>
+    <a href="https://www.instagram.com/huva.ai.academy/" target="_blank" rel="noopener noreferrer" class="footer-social-link" data-i18n="footer_instagram">INSTAGRAM</a>
   </div>
 </footer>
 
 <!-- ────── STICKY CTA (live huva.io) ────── -->
 <div class="sticky-cta">
   <div class="sticky-cta-text"><span data-i18n="sticky_text">Միացիր հաջորդ խմբին,</span> <strong data-i18n="sticky_date">որ սկսվում է մայիսի 20-ից</strong></div>
-  <button class="sticky-cta-btn" data-i18n="sticky_join">Գալիս եմ</button>
+  <a class="sticky-cta-btn" href="https://huva.io/#pricing" data-i18n="sticky_join">Գալիս եմ</a>
 </div>
 
 <script>
@@ -623,6 +733,7 @@ function applyLang(){
     : '<svg viewBox="0 0 16 16"><rect width="16" height="5.33" y="0" fill="#d90012"/><rect width="16" height="5.34" y="5.33" fill="#0033a0"/><rect width="16" height="5.33" y="10.67" fill="#f2a800"/></svg>';
   document.getElementById("navLangFlag").innerHTML = flagSvg;
   document.querySelectorAll(".lang-option").forEach(o => o.classList.toggle("active", o.dataset.lang === lang));
+  document.querySelectorAll(".mobile-lang-option").forEach(o => o.classList.toggle("active", o.dataset.mobileLang === lang));
   if (typeof render === "function") render();
 }
 function setLang(newLang){
@@ -706,6 +817,9 @@ const courseLabels = {
   "creator": "AI Creator",
 };
 
+// Known private/unresolved Instagram accounts; render initials directly to avoid 404 image requests.
+const missingAvatarHandles = new Set(["zara.aiads", "sylvie.aiexperience", "neuralstructure", "ai_lab_armenia"]);
+
 const grid = document.getElementById("grid");
 let activeFilter = "all";
 
@@ -722,7 +836,7 @@ function renderCard(a){
   const services = a.courses.map((c, i) => `<span class="${i === 0 ? 'service' : 'service alt'}">${courseLabels[c] || c}</span>`).join("");
 
   let photoUrl = "";
-  if(a.platform === "instagram") photoUrl = `./avatars/${a.handle}.jpg`;
+  if(a.platform === "instagram" && !missingAvatarHandles.has(a.handle)) photoUrl = `./avatars/${a.handle}.jpg`;
 
   const photoTag = photoUrl
     ? `<img class="photo" src="${photoUrl}" alt="${a.name}" loading="lazy" onerror="this.closest('.avatar').classList.add('no-photo')">`
@@ -766,7 +880,7 @@ function render(){
       <div class="join-card">
         <h3>${t('join_title')}</h3>
         <p>${t('join_text')}</p>
-        <a class="cta" href="https://huva.io">${t('join_cta')}</a>
+        <a class="cta" href="https://huva.io/#pricing">${t('join_cta')}</a>
       </div>
     `;
   }
@@ -798,6 +912,29 @@ navLang.addEventListener("click", e => {
 });
 document.addEventListener("click", e => {
   if (!navLang.contains(e.target)) navLang.classList.remove("open");
+});
+
+/* Mobile menu */
+const mobileMenu = document.getElementById("mobileMenu");
+const navHamburger = document.getElementById("navHamburger");
+const mobileMenuClose = document.getElementById("mobileMenuClose");
+
+function setMobileMenu(open){
+  mobileMenu.classList.toggle("open", open);
+  mobileMenu.setAttribute("aria-hidden", open ? "false" : "true");
+  navHamburger.setAttribute("aria-expanded", open ? "true" : "false");
+  document.body.style.overflow = open ? "hidden" : "";
+}
+
+navHamburger.addEventListener("click", () => setMobileMenu(true));
+mobileMenuClose.addEventListener("click", () => setMobileMenu(false));
+mobileMenu.addEventListener("click", e => {
+  if (e.target === mobileMenu || e.target.closest(".mobile-menu-link, .mobile-menu-join")) setMobileMenu(false);
+  const langBtn = e.target.closest(".mobile-lang-option");
+  if (langBtn) setLang(langBtn.dataset.mobileLang);
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") setMobileMenu(false);
 });
 
 applyLang();
